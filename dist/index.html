@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiệm Bánh DAN - Bakery & Coffee</title>
+    <meta name="description"
+        content="Tiệm Bánh DAN - Thưởng thức bánh ngọt tuyệt hảo và cà phê đậm đà tại không gian ấm cúng.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#78350F',
+                        secondary: '#92400E',
+                        accent: '#FBBF24',
+                        background: '#FEF3C7',
+                        text: '#451A03',
+                    },
+                    fontFamily: {
+                        sans: ['Work Sans', 'sans-serif'],
+                        serif: ['Outfit', 'sans-serif'], // Design system uses Outfit for headings, which is sans-serif but used as display
+                        body: ['Work Sans', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'sm': '0 1px 2px rgba(0,0,0,0.05)',
+                        'md': '0 4px 6px rgba(0,0,0,0.1)',
+                        'lg': '0 10px 15px rgba(0,0,0,0.1)',
+                        'xl': '0 20px 25px rgba(0,0,0,0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+  <link rel="stylesheet" crossorigin href="/assets/index-o69Jqj-R.css">
+</head>
+
+<body class="bg-background text-text font-body antialiased selection:bg-accent selection:text-primary">
+
+    <!-- Navigation -->
+    <nav
+        class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm transition-all duration-300 transform translate-y-0 text-text">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer group">
+                    <span
+                        class="font-serif text-2xl font-bold text-primary group-hover:scale-105 transition-transform duration-300">Tiệm
+                        Bánh DAN</span>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home"
+                            class="hover:text-primary transition-colors duration-200 px-3 py-2 rounded-md font-medium text-lg">Trang
+                            Chủ</a>
+                        <a href="#menu"
+                            class="hover:text-primary transition-colors duration-200 px-3 py-2 rounded-md font-medium text-lg">Thực
+                            Đơn</a>
+                        <a href="#gallery"
+                            class="hover:text-primary transition-colors duration-200 px-3 py-2 rounded-md font-medium text-lg">Hình
+                            Ảnh</a>
+                        <a href="#about"
+                            class="hover:text-primary transition-colors duration-200 px-3 py-2 rounded-md font-medium text-lg">Giới
+                            Thiệu</a>
+                        <a href="#contact"
+                            class="bg-primary text-white hover:bg-accent hover:shadow-lg transition-all duration-300 px-6 py-2 rounded-full font-medium">Liên
+                            Hệ</a>
+                    </div>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="p-2 rounded-md hover:bg-secondary focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white/95 backdrop-blur-xl absolute w-full left-0 top-20 shadow-lg py-4 px-4 transition-all duration-300 origin-top transform scale-y-0 opacity-0">
+            <div class="flex flex-col space-y-4">
+                <a href="#home" class="block hover:text-primary px-3 py-2 rounded-md text-base font-medium">Trang
+                    Chủ</a>
+                <a href="#menu" class="block hover:text-primary px-3 py-2 rounded-md text-base font-medium">Thực Đơn</a>
+                <a href="#gallery" class="block hover:text-primary px-3 py-2 rounded-md text-base font-medium">Hình
+                    Ảnh</a>
+                <a href="#about" class="block hover:text-primary px-3 py-2 rounded-md text-base font-medium">Giới
+                    Thiệu</a>
+                <a href="#contact"
+                    class="block text-center bg-primary text-white hover:bg-accent px-6 py-3 rounded-full font-medium shadow-md">Liên
+                    Hệ Ngay</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div
+            class="absolute inset-0 bg-[url('assets/img1.png')] bg-cover bg-center opacity-20 transform scale-105 filter blur-sm">
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto">
+                <span
+                    class="inline-block py-1 px-3 rounded-full bg-secondary/50 text-accent font-semibold text-sm mb-4 animate-fade-in-up">Chào
+                    mừng đến với</span>
+                <h1
+                    class="font-serif text-5xl md:text-7xl font-bold text-text mb-6 leading-tight animate-fade-in-up delay-100">
+                    Hương Vị Ngọt Ngào <br> <span class="text-primary">Tiệm Bánh DAN</span>
+                </h1>
+                <p
+                    class="text-lg md:text-xl text-text/80 mb-10 leading-relaxed max-w-2xl mx-auto animate-fade-in-up delay-200">
+                    Nơi hội tụ những chiếc bánh thủ công tinh tế và ly cà phê đậm đà. Một không gian ấm cúng để bạn tận
+                    hưởng những khoảnh khắc tuyệt vời.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-up delay-300">
+                    <a href="#menu" class="btn-primary shadow-lg shadow-accent/30">Xem Menu</a>
+                    <a href="#contact" class="btn-secondary">Đặt Bàn Ngay</a>
+                </div>
+            </div>
+
+            <!-- Hero Images Grid -->
+            <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in-up delay-500">
+                <div class="relative group overflow-hidden rounded-2xl shadow-xl aspect-[4/3]">
+                    <img src="/assets/img2-Bd0Qsx12.jpg" alt="Bánh ngon"
+                        class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <p
+                            class="text-white font-medium text-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            Bánh Tươi Mỗi Ngày</p>
+                    </div>
+                </div>
+                <div class="relative group overflow-hidden rounded-2xl shadow-xl aspect-[4/3] md:-translate-y-8">
+                    <img src="/assets/img1-BR_TuUn4.png" alt="Bánh kem dâu tây"
+                        class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <p
+                            class="text-white font-medium text-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            Hương Vị Độc Đáo</p>
+                    </div>
+                </div>
+                <div class="relative group overflow-hidden rounded-2xl shadow-xl aspect-[4/3]">
+                    <img src="/assets/img3-BEO6ZwQd.png" alt="Tiramisu"
+                        class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <p
+                            class="text-white font-medium text-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            Nguyên Liệu Cao Cấp</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="lg:w-1/2 relative">
+                    <div class="absolute -top-4 -left-4 w-24 h-24 bg-secondary rounded-full opacity-50 z-0"></div>
+                    <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/10 rounded-full z-0"></div>
+                    <img src="/assets/img4-B7IhTQ16.png" alt="Không gian quán"
+                        class="rounded-2xl shadow-2xl relative z-10 w-full object-cover aspect-[4/3] hover:scale-[1.02] transition-transform duration-500">
+                </div>
+                <div class="lg:w-1/2">
+                    <h2 class="font-serif text-4xl font-bold text-text mb-6 relative inline-block">
+                        Câu Chuyện Dan Cafe
+                        <span class="absolute bottom-0 left-0 w-1/3 h-1 bg-primary rounded-full"></span>
+                    </h2>
+                    <p class="text-lg text-text/70 mb-6 leading-relaxed">
+                        Tiệm Bánh DAN được thành lập với niềm đam mê mang đến những chiếc bánh ngọt ngào nhất cho mọi
+                        người. Từng chiếc bánh được làm thủ công bằng cả trái tim, sử dụng những nguyên liệu tươi ngon
+                        nhất, chọn lọc kỹ càng.
+                    </p>
+                    <p class="text-lg text-text/70 mb-8 leading-relaxed">
+                        Không gian của chúng tôi được thiết kế để bạn tìm thấy sự bình yên giữa phố thị ồn ào. Hãy đến
+                        và cảm nhận sự khác biệt trong từng hương vị.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="flex flex-col gap-2">
+                            <span class="text-4xl font-serif font-bold text-primary">50+</span>
+                            <span class="text-text/60 font-medium">Loại Bánh Ngọt</span>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <span class="text-4xl font-serif font-bold text-primary">100%</span>
+                            <span class="text-text/60 font-medium">Nguyên Liệu Tự Nhiên</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-20 bg-background/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-4xl font-bold text-text mb-4">Thực Đơn Nổi Bật</h2>
+                <p class="text-lg text-text/60 max-w-2xl mx-auto">Khám phá những món "Best Seller" được khách hàng yêu
+                    thích nhất tại Tiệm Bánh DAN.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card 1 -->
+                <div
+                    class="bg-white rounded-2xl p-4 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
+                    <div class="relative overflow-hidden rounded-xl aspect-square mb-4">
+                        <img src="/assets/img1-BR_TuUn4.png" alt="Bánh kem dâu"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div
+                            class="absolute top-2 right-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded-full">
+                            Best Seller</div>
+                    </div>
+                    <div class="text-center">
+                        <h3
+                            class="font-serif text-xl font-bold text-text mb-2 group-hover:text-primary transition-colors">
+                            Bánh Kem Dâu Tây</h3>
+                        <p class="text-text/60 text-sm mb-3">Với lớp kem tươi mềm mịn và dâu tây tươi mọng.</p>
+                        <span class="text-primary font-bold text-lg">Liên hệ</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div
+                    class="bg-white rounded-2xl p-4 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
+                    <div class="relative overflow-hidden rounded-xl aspect-square mb-4">
+                        <img src="/assets/img3-BEO6ZwQd.png" alt="Tiramisu"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="text-center">
+                        <h3
+                            class="font-serif text-xl font-bold text-text mb-2 group-hover:text-primary transition-colors">
+                            Classic Tiramisu</h3>
+                        <p class="text-text/60 text-sm mb-3">Hương vị cà phê nồng nàn quyện cùng phô mai béo ngậy.</p>
+                        <span class="text-primary font-bold text-lg">Liên hệ</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div
+                    class="bg-white rounded-2xl p-4 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
+                    <div class="relative overflow-hidden rounded-xl aspect-square mb-4">
+                        <img src="/assets/img2-Bd0Qsx12.jpg" alt="Panna Cotta"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="text-center">
+                        <h3
+                            class="font-serif text-xl font-bold text-text mb-2 group-hover:text-primary transition-colors">
+                            Berry Panna Cotta</h3>
+                        <p class="text-text/60 text-sm mb-3">Món tráng miệng thanh mát với sốt trái cây rừng.</p>
+                        <span class="text-primary font-bold text-lg">Liên hệ</span>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div
+                    class="bg-white rounded-2xl p-4 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
+                    <div class="relative overflow-hidden rounded-xl aspect-square mb-4">
+                        <img src="/assets/img4-B7IhTQ16.png" alt="Trà sữa"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div
+                            class="absolute top-2 right-2 bg-secondary text-text text-xs font-bold px-2 py-1 rounded-full">
+                            New</div>
+                    </div>
+                    <div class="text-center">
+                        <h3
+                            class="font-serif text-xl font-bold text-text mb-2 group-hover:text-primary transition-colors">
+                            Trà Sữa Signature</h3>
+                        <p class="text-text/60 text-sm mb-3">Vị trà đậm đà, kết hợp topping handmade độc quyền.</p>
+                        <span class="text-primary font-bold text-lg">Liên hệ</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <a href="#"
+                    class="inline-flex items-center gap-2 text-primary font-semibold hover:gap-4 transition-all duration-300">Xem
+                    toàn bộ menu <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-4xl font-bold text-text mb-4">Góc Check-in</h2>
+                <p class="text-lg text-text/60 max-w-2xl mx-auto">Những khoảnh đẹp được khách hàng lưu giữ tại Tiệm Bánh
+                    DAN.</p>
+            </div>
+
+            <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+                <img src="/assets/img1-BR_TuUn4.png"
+                    class="w-full rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
+                    alt="Ảnh 1">
+                <img src="/assets/img2-Bd0Qsx12.jpg"
+                    class="w-full rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
+                    alt="Ảnh 2">
+                <img src="/assets/img3-BEO6ZwQd.png"
+                    class="w-full rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
+                    alt="Ảnh 3">
+                <img src="/assets/img4-B7IhTQ16.png"
+                    class="w-full rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
+                    alt="Ảnh 4">
+                <!-- Clone checks for gallery feel -->
+                <img src="/assets/img2-Bd0Qsx12.jpg"
+                    class="w-full rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] grayscale hover:grayscale-0"
+                    alt="Ảnh 5">
+                <img src="/assets/img1-BR_TuUn4.png"
+                    class="w-full rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] grayscale hover:grayscale-0"
+                    alt="Ảnh 6">
+            </div>
+        </div>
+    </section>
+
+    <!-- Map & Contact Section -->
+    <section id="contact" class="py-20 bg-text text-white/90">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="space-y-8">
+                    <div>
+                        <h2 class="font-serif text-4xl font-bold text-white mb-2">Ghé Thăm Chúng Tôi</h2>
+                        <p class="text-white/60">Chúng tôi luôn sẵn sàng chào đón bạn!</p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-xl mb-1 text-white">Địa Chỉ</h3>
+                                <p class="text-white/70">Tiệm Bánh ĐAN - Trảng Dài, Biên Hòa, Đồng Nai (Gần ngã tư Tân
+                                    Phong)</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-xl mb-1 text-white">Điện Thoại</h3>
+                                <p class="text-white/70">093 888 7777</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-xl mb-1 text-white">Giờ Mở Cửa</h3>
+                                <p class="text-white/70">Thứ 2 - Chủ Nhật: 7:00 - 22:00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Google Map Embed -->
+                <div
+                    class="overflow-hidden rounded-2xl shadow-2xl h-80 lg:h-full relative filter grayscale hover:grayscale-0 transition-all duration-500">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15669.968602931498!2d106.8501450!3d11.0006639!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174dde5f9b332c1%3A0x32d7d2e662eb2471!2zVGnhu4dtIELDoW5oIMSQQU4!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s"
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black text-white/50 text-center py-8">
+        <p>&copy; 2026 Tiệm Bánh DAN. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Simple mobile menu toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            if (!menu.classList.contains('hidden')) {
+                setTimeout(() => {
+                    menu.classList.remove('scale-y-0', 'opacity-0');
+                }, 10);
+            } else {
+                menu.classList.add('scale-y-0', 'opacity-0');
+            }
+        });
+    </script>
+</body>
+
+</html>
