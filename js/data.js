@@ -36,7 +36,8 @@ export const initialData = {
                 price: "Liên hệ",
                 image: "assets/img1.png",
                 tag: "Best Seller",
-                tagColor: "accent"
+                tagColor: "accent",
+                category: "bánh ngọt"
             },
             {
                 id: 2,
@@ -45,7 +46,8 @@ export const initialData = {
                 price: "Liên hệ",
                 image: "assets/img3.png",
                 tag: "Must Try",
-                tagColor: "primary"
+                tagColor: "primary",
+                category: "bánh ngọt"
             },
             {
                 id: 3,
@@ -54,7 +56,8 @@ export const initialData = {
                 price: "Liên hệ",
                 image: "assets/img2.jpg",
                 tag: "Fresh Daily",
-                tagColor: "secondary"
+                tagColor: "secondary",
+                category: "bánh ngọt"
             },
             {
                 id: 4,
@@ -63,7 +66,8 @@ export const initialData = {
                 price: "Liên hệ",
                 image: "assets/img4.png",
                 tag: "New",
-                tagColor: "accent"
+                tagColor: "accent",
+                category: "đồ uống"
             },
             {
                 id: 5,
@@ -72,7 +76,8 @@ export const initialData = {
                 price: "Liên hệ",
                 image: "assets/img2.jpg",
                 tag: null,
-                tagColor: null
+                tagColor: null,
+                category: "bánh ngọt"
             },
             {
                 id: 6,
@@ -81,7 +86,8 @@ export const initialData = {
                 price: "Liên hệ",
                 image: "assets/img3.png",
                 tag: "Hot",
-                tagColor: "secondary"
+                tagColor: "secondary",
+                category: "món mặn"
             }
         ]
     },

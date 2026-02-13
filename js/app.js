@@ -25,12 +25,17 @@ const renderChefStory = () => {
     }
 };
 
-const renderMenu = () => {
+const renderMenu = (filterCategory = null) => {
     const menuGrid = document.getElementById('menu-grid');
 
     if (menuGrid) {
-        menuGrid.innerHTML = appData.menu.items.map((item, index) => `
-            <div class="group bg-white rounded-2xl p-4 shadow-card hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-gray-100 flex flex-col h-full animate-fade-in-up" years-delay="${index * 100}">
+        // Filter items based on category
+        const filteredItems = filterCategory
+            ? appData.menu.items.filter(item => item.category === filterCategory)
+            : appData.menu.items;
+
+        menuGrid.innerHTML = filteredItems.map((item, index) => `
+            <div class="group bg-white rounded-2xl p-4 shadow-card hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-gray-100 flex flex-col h-full animate-fade-in-up" years-delay="${index * 100}" data-category="${item.category}">
                 <div class="relative overflow-hidden rounded-xl aspect-[4/3] mb-4">
                     <img src="${item.image}" alt="${item.name}" 
                          class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
@@ -109,6 +114,26 @@ document.addEventListener('DOMContentLoaded', () => {
     renderMenu();
     renderGallery();
     renderContact();
+
+    // Category Filter
+    const categoryButtons = document.querySelectorAll('#menu .flex.justify-center button');
+    categoryButtons.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons
+            categoryButtons.forEach(b => {
+                b.classList.remove('bg-primary', 'text-white', 'shadow-md');
+                b.classList.add('bg-white', 'text-text', 'border', 'border-primary/10');
+            });
+
+            // Add active class to clicked button
+            btn.classList.add('bg-primary', 'text-white', 'shadow-md');
+            btn.classList.remove('bg-white', 'text-text', 'border', 'border-primary/10');
+
+            // Filter menu
+            const categories = [null, 'bánh ngọt', 'đồ uống', 'món mặn'];
+            renderMenu(categories[index]);
+        });
+    });
 
     // Animate elements on scroll
     const observer = new IntersectionObserver((entries) => {
