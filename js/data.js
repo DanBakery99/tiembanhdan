@@ -4,7 +4,8 @@ export const initialData = {
         subtitle: "Chào mừng đến với Tiệm Bánh DAN",
         description: "Mỗi chiếc bánh là một tác phẩm nghệ thuật, được làm từ những nguyên liệu tươi ngon nhất và niềm đam mê cháy bỏng. Hãy đến và cảm nhận sự khác biệt.",
         ctaConnect: "Xem Menu",
-        ctaOrder: "Đặt Bàn",
+        ctaOrder: "Đặt Món",
+
         backgroundImages: [
             { src: "assets/img1.png", label: "Signature Cakes" },
             { src: "assets/img2.jpg", label: "Fresh Pastries" },
