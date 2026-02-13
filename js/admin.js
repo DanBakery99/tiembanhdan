@@ -38,7 +38,7 @@ const loginError = document.getElementById('login-error');
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const password = document.getElementById('password').value;
-    if (password === 'admin123') { // Simple password
+    if (password === 'Toobakery0810') { // Updated password
         loginModal.classList.add('hidden');
         dashboard.classList.remove('hidden');
         initAdmin();
