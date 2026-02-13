@@ -109,6 +109,16 @@ const renderMenuEditor = () => {
                      </div>
                      <input type="text" value="${item.tag || ''}" placeholder="Tag (e.g. Best Seller)" class="p-2 border rounded w-full text-sm" onchange="updateMenuItem(${index}, 'tag', this.value)">
                 </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <select class="p-2 border rounded w-full text-sm" onchange="updateMenuItem(${index}, 'category', this.value)">
+                        <option value="bánh ngọt" ${item.category === 'bánh ngọt' ? 'selected' : ''}>🍰 Bánh Ngọt</option>
+                        <option value="đồ uống" ${item.category === 'đồ uống' ? 'selected' : ''}>☕ Đồ Uống</option>
+                        <option value="món mặn" ${item.category === 'món mặn' ? 'selected' : ''}>🍔 Món Mặn</option>
+                    </select>
+                    <div class="text-xs text-gray-500 flex items-center px-2">
+                        <span>Phân loại: <strong>${item.category || 'chưa chọn'}</strong></span>
+                    </div>
+                </div>
             </div>
             <button onclick="deleteMenuItem(${index})" class="text-red-500 hover:text-red-700 p-2">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
@@ -149,7 +159,8 @@ window.addMenuItem = () => {
         price: "Liên hệ",
         image: "assets/img1.png",
         tag: "",
-        tagColor: "primary"
+        tagColor: "primary",
+        category: "bánh ngọt"
     });
     renderMenuEditor();
 };
