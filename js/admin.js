@@ -4,6 +4,31 @@ let appData = localStorage.getItem('siteData')
     ? JSON.parse(localStorage.getItem('siteData'))
     : JSON.parse(JSON.stringify(initialData)); // Deep copy to avoid mutating import
 
+// Helper: Convert File to Base64 with resizing
+const processImageFile = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 800; // Resize to max width 800px to save space
+                const scaleSize = MAX_WIDTH / img.width;
+                canvas.width = MAX_WIDTH;
+                canvas.height = img.height * scaleSize;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                resolve(canvas.toDataURL('image/jpeg', 0.7)); // Compress to 70% quality
+            };
+            img.onerror = (err) => reject(err);
+        };
+        reader.onerror = (err) => reject(err);
+    });
+};
+
 // Login Logic
 const loginModal = document.getElementById('login-modal');
 const dashboard = document.getElementById('admin-dashboard');
@@ -64,8 +89,11 @@ const renderMenuEditor = () => {
         const el = document.createElement('div');
         el.className = 'bg-gray-50 p-4 rounded-lg flex flex-col md:flex-row gap-4 items-start shadow-sm border border-gray-100';
         el.innerHTML = `
-            <div class="w-full md:w-32 h-32 flex-shrink-0 bg-gray-200 rounded-lg overflow-hidden">
+            <div class="w-full md:w-32 h-32 flex-shrink-0 bg-gray-200 rounded-lg overflow-hidden group relative">
                 <img src="${item.image}" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black/50 hidden group-hover:flex items-center justify-center cursor-pointer" onclick="document.getElementById('menu-file-${index}').click()">
+                    <span class="text-white text-xs text-center px-1">Đổi Ảnh</span>
+                </div>
             </div>
             <div class="flex-1 space-y-3 w-full">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -73,8 +101,12 @@ const renderMenuEditor = () => {
                     <input type="text" value="${item.price}" placeholder="Giá" class="p-2 border rounded w-full text-sm" onchange="updateMenuItem(${index}, 'price', this.value)">
                 </div>
                 <input type="text" value="${item.description}" placeholder="Mô tả" class="p-2 border rounded w-full text-sm" onchange="updateMenuItem(${index}, 'description', this.value)">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                     <input type="text" value="${item.image}" placeholder="URL Hình ảnh" class="p-2 border rounded w-full text-sm text-gray-500" onchange="updateMenuItem(${index}, 'image', this.value)">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
+                     <div class="flex gap-2 items-center">
+                        <input type="text" value="${item.image}" placeholder="URL Hình ảnh" class="p-2 border rounded w-full text-sm text-gray-500 flex-1" onchange="updateMenuItem(${index}, 'image', this.value)">
+                        <input type="file" id="menu-file-${index}" class="hidden" accept="image/*" onchange="uploadMenuImage(${index}, this)">
+                        <button onclick="document.getElementById('menu-file-${index}').click()" class="bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded text-xs whitespace-nowrap">Upload</button>
+                     </div>
                      <input type="text" value="${item.tag || ''}" placeholder="Tag (e.g. Best Seller)" class="p-2 border rounded w-full text-sm" onchange="updateMenuItem(${index}, 'tag', this.value)">
                 </div>
             </div>
@@ -89,6 +121,18 @@ const renderMenuEditor = () => {
 window.updateMenuItem = (index, field, value) => {
     appData.menu.items[index][field] = value;
 };
+
+window.uploadMenuImage = async (index, input) => {
+    if (input.files && input.files[0]) {
+        try {
+            const base64 = await processImageFile(input.files[0]);
+            appData.menu.items[index].image = base64;
+            renderMenuEditor();
+        } catch (e) {
+            alert("Lỗi upload ảnh: " + e.message);
+        }
+    }
+}
 
 window.deleteMenuItem = (index) => {
     if (confirm('Bạn có chắc muốn xóa món này?')) {
@@ -114,6 +158,18 @@ window.addMenuItem = () => {
 const renderGalleryEditor = () => {
     const list = document.getElementById('gallery-list');
     list.innerHTML = '';
+
+    // Add "Add New" button as the first card
+    const addEl = document.createElement('div');
+    addEl.className = 'flex flex-col items-center justify-center bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg aspect-square cursor-pointer hover:bg-gray-200 transition-colors';
+    addEl.onclick = () => document.getElementById('gallery-upload-input').click();
+    addEl.innerHTML = `
+        <svg class="w-10 h-10 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        <span class="text-sm text-gray-500 font-medium">Thêm Ảnh Mới</span>
+        <input type="file" id="gallery-upload-input" class="hidden" accept="image/*" onchange="uploadGalleryImage(this)">
+    `;
+    list.appendChild(addEl);
+
     appData.gallery.images.forEach((img, index) => {
         const el = document.createElement('div');
         el.className = 'relative group aspect-square rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow';
@@ -128,6 +184,18 @@ const renderGalleryEditor = () => {
     });
 };
 
+window.uploadGalleryImage = async (input) => {
+    if (input.files && input.files[0]) {
+        try {
+            const base64 = await processImageFile(input.files[0]);
+            appData.gallery.images.push(base64);
+            renderGalleryEditor();
+        } catch (e) {
+            alert("Lỗi upload ảnh: " + e.message);
+        }
+    }
+}
+
 window.deleteGalleryItem = (index) => {
     if (confirm('Xóa ảnh này?')) {
         appData.gallery.images.splice(index, 1);
@@ -141,7 +209,7 @@ window.updateGalleryItem = (index, value) => {
 };
 
 window.addGalleryItem = () => {
-    const url = prompt("Nhập URL hình ảnh:");
+    const url = prompt("Nhập URL hình ảnh (hoặc dùng nút Upload):");
     if (url) {
         appData.gallery.images.push(url);
         renderGalleryEditor();
@@ -154,10 +222,26 @@ const renderAboutEditor = () => {
     document.getElementById('about-image-input').value = appData.about.image;
     document.getElementById('about-content-input').value = appData.about.paragraphs.join('\n');
 
-    // Listeners are added manually to avoid re-binding issues or sophisticated framework logic
     document.getElementById('about-title-input').onchange = (e) => appData.about.title = e.target.value;
     document.getElementById('about-image-input').onchange = (e) => appData.about.image = e.target.value;
     document.getElementById('about-content-input').onchange = (e) => appData.about.paragraphs = e.target.value.split('\n').filter(p => p.trim() !== '');
+
+    // Bind upload for about image
+    const fileInput = document.getElementById('about-image-file');
+    if (fileInput) {
+        fileInput.onchange = async (e) => {
+            if (e.target.files && e.target.files[0]) {
+                try {
+                    const base64 = await processImageFile(e.target.files[0]);
+                    appData.about.image = base64;
+                    document.getElementById('about-image-input').value = base64; // Update text input view
+                    alert("Đã cập nhật ảnh thành công!");
+                } catch (err) {
+                    alert("Lỗi: " + err);
+                }
+            }
+        }
+    }
 };
 
 /* Contact Editor */
@@ -176,8 +260,16 @@ const renderContactEditor = () => {
 
 // Global Actions
 document.getElementById('save-btn').addEventListener('click', () => {
-    localStorage.setItem('siteData', JSON.stringify(appData));
-    alert('Đã lưu thay đổi vào trình duyệt! Hãy F5 lại trang chủ để xem thử.');
+    try {
+        localStorage.setItem('siteData', JSON.stringify(appData));
+        alert('Đã lưu thay đổi vào trình duyệt!');
+    } catch (e) {
+        if (e.name === 'QuotaExceededError') {
+            alert('Lỗi: Dung lượng lưu trữ đã đầy! Hãy thử xóa bớt ảnh hoặc dùng ảnh nhỏ hơn.');
+        } else {
+            alert('Lỗi khi lưu: ' + e.message);
+        }
+    }
 });
 
 document.getElementById('reset-btn').addEventListener('click', () => {
