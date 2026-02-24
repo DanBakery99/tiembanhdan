@@ -10,11 +10,31 @@
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <!-- Tailwind config moved to tailwind.config.cjs for PostCSS build -->
+    <style>
+        /* Admin theme overrides to restore original admin color palette */
+        :root {}
+        .admin-theme {
+            --admin-primary: #78350F;
+            --admin-secondary: #92400E;
+            --admin-accent: #FBBF24;
+        }
+        /* background and text overrides (catch utility classes and their variants) */
+        .admin-theme [class*="bg-primary"] { background-color: var(--admin-primary) !important; }
+        .admin-theme [class*="text-primary"] { color: var(--admin-primary) !important; }
+        .admin-theme [class*="bg-secondary"] { background-color: var(--admin-secondary) !important; }
+        .admin-theme [class*="text-secondary"] { color: var(--admin-secondary) !important; }
+        .admin-theme [class*="bg-accent"] { background-color: var(--admin-accent) !important; }
+        .admin-theme [class*="text-accent"] { color: var(--admin-accent) !important; }
+        .admin-theme [class*="border-secondary"] { border-color: var(--admin-secondary) !important; }
+        .admin-theme [class*="hover:bg-secondary"]:hover { background-color: var(--admin-secondary) !important; }
+        .admin-theme [class*="hover:bg-accent"]:hover { background-color: var(--admin-accent) !important; }
+        .admin-theme .bg-accent\/20 { background-color: color-mix(in srgb, var(--admin-accent) 20%, white) !important; }
+    </style>
     <!-- Favicon (prevent default /favicon.ico 404) -->
     <link rel="icon" href="/assets/img1.png">
 </head>
 
-<body class="bg-gray-100 text-text font-sans antialiased min-h-screen">
+<body class="bg-gray-100 text-text font-sans antialiased min-h-screen admin-theme">
 
     <!-- Login Modal -->
     <div id="login-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
