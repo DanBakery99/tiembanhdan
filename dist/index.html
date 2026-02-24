@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiệm Bánh DAN - Hương Vị Ngọt Ngào</title>
+    <title>Tiệm Bánh DAN - Bánh Ngọt Handmade Biên Hòa</title>
     <meta name="description"
-        content="Tiệm Bánh DAN - Thưởng thức bánh ngọt tuyệt hảo và cà phê đậm đà tại không gian ấm cúng. Đặt bàn ngay để trải nghiệm.">
+        content="Tiệm Bánh DAN - Bánh ngọt handmade thơm ngon tại Biên Hòa. Đặt bánh sinh nhật, bánh kem, croissant, macaron. Giao hàng tận nơi. Nhắn Zalo để đặt ngay!">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Playfair Display (Retro Serif) & Inter (Modern Sans) -->
@@ -47,8 +47,46 @@
             }
         }
     </script>
-  <script type="module" crossorigin src="/assets/main-Rw3eJ_LZ.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/data-XfQZq-iO.js">
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(3deg);
+            }
+
+            50% {
+                transform: translateY(-12px) rotate(3deg);
+            }
+        }
+
+        /* Sticky CTA bar on mobile */
+        @media (max-width: 639px) {
+            .mobile-sticky-cta {
+                display: flex;
+            }
+        }
+
+        @media (min-width: 640px) {
+            .mobile-sticky-cta {
+                display: none;
+            }
+        }
+    </style>
+  <script type="module" crossorigin src="/assets/main-7_wkg9mu.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/data-oOYYI1OB.js">
   <link rel="stylesheet" crossorigin href="/assets/main-DcQXhJ5l.css">
 </head>
 
@@ -64,7 +102,7 @@
             </a>
 
             <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden text-primary focus:outline-none">
+            <button id="mobile-menu-btn" class="md:hidden text-primary focus:outline-none" aria-label="Mở menu">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
                     </path>
@@ -81,14 +119,15 @@
                 <a href="#gallery"
                     class="nav-link font-medium text-lg text-text hover:text-accent transition-colors">Hình Ảnh</a>
                 <a href="#reviews-location"
-                    class="nav-link font-medium text-lg text-text hover:text-accent transition-colors">Vị Trí</a>
+                    class="nav-link font-medium text-lg text-text hover:text-accent transition-colors">Đánh Giá & Vị
+                    Trí</a>
             </div>
         </div>
 
         <!-- Mobile Menu Overlay -->
         <div id="mobile-menu"
             class="fixed inset-0 bg-background/95 backdrop-blur-xl z-40 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col items-center justify-center space-y-8">
-            <button id="close-menu-btn" class="absolute top-6 right-6 text-primary">
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-primary" aria-label="Đóng menu">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
                     </path>
@@ -97,9 +136,8 @@
             <a href="#home" class="mobile-link text-2xl font-display font-medium text-text">Trang Chủ</a>
             <a href="#menu" class="mobile-link text-2xl font-display font-medium text-primary font-bold">Thực Đơn</a>
             <a href="#gallery" class="mobile-link text-2xl font-display font-medium text-text">Hình Ảnh</a>
-            <a href="#reviews-location" class="mobile-link text-2xl font-display font-medium text-text">Vị Trí</a>
-
-
+            <a href="#reviews-location" class="mobile-link text-2xl font-display font-medium text-text">Đánh Giá & Vị
+                Trí</a>
         </div>
     </nav>
 
@@ -130,30 +168,20 @@
                     đam
                     mê cháy bỏng.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
+
+                <!-- Hero CTAs (injected via JS for dynamic Zalo/phone) -->
+                <div id="hero-cta-container"
+                    class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4 flex-wrap">
+                    <!-- Fallback while JS loads -->
                     <a href="#menu"
                         class="px-8 py-4 bg-primary text-white rounded-full font-semibold shadow-lg hover:shadow-vintage hover:bg-secondary transition-all transform hover:-translate-y-1 text-center">
                         Xem Thực Đơn
                     </a>
-
                 </div>
 
-                <!-- Highlights -->
-                <div class="flex items-center justify-center md:justify-start gap-8 pt-8">
-                    <div class="text-center">
-                        <span class="block text-3xl font-bold text-accent">50+</span>
-                        <span class="text-sm text-text/60">Loại Bánh</span>
-                    </div>
-                    <div class="w-px h-12 bg-primary/10"></div>
-                    <div class="text-center">
-                        <span class="block text-3xl font-bold text-accent">100%</span>
-                        <span class="text-sm text-text/60">Organic</span>
-                    </div>
-                    <div class="w-px h-12 bg-primary/10"></div>
-                    <div class="text-center">
-                        <span class="block text-3xl font-bold text-accent">4.9</span>
-                        <span class="text-sm text-text/60">Đánh Giá</span>
-                    </div>
+                <!-- Dynamic Stats (injected via JS — no hardcoded claims) -->
+                <div id="hero-stats" class="flex items-center justify-center md:justify-start gap-8 pt-8 flex-wrap">
+                    <!-- Injected by JS -->
                 </div>
             </div>
 
@@ -161,20 +189,21 @@
             <div class="relative hidden md:block h-[600px]">
                 <div class="absolute inset-0 bg-gradient-to-tr from-accent/20 to-transparent rounded-full blur-3xl">
                 </div>
-                <img src="/assets/img1-BR_TuUn4.png" alt="Signature Cake"
+                <img src="/assets/img1-BR_TuUn4.png" alt="Bánh kem signature của Tiệm Bánh DAN"
                     class="absolute top-10 right-10 w-3/4 rounded-3xl shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-700 z-20 object-cover aspect-[4/5]">
-                <img src="/assets/img2-Bd0Qsx12.jpg" alt="Pastry Detail"
+                <img src="/assets/img2-Bd0Qsx12.jpg" alt="Bánh ngọt handmade tươi mỗi ngày"
                     class="absolute bottom-10 left-10 w-2/3 rounded-3xl shadow-xl -rotate-6 hover:rotate-0 transition-transform duration-700 z-10 object-cover aspect-square border-8 border-white">
             </div>
 
             <!-- Mobile Hero Image -->
             <div class="md:hidden mt-8 relative rounded-2xl overflow-hidden shadow-xl aspect-square">
-                <img src="/assets/img1-BR_TuUn4.png" alt="Signature Cake" class="w-full h-full object-cover">
+                <img src="/assets/img1-BR_TuUn4.png" alt="Bánh kem signature của Tiệm Bánh DAN"
+                    class="w-full h-full object-cover">
             </div>
         </div>
     </header>
 
-    <!-- Menu Section (Moved Up) -->
+    <!-- Menu Section -->
     <section id="menu" class="py-24 bg-surface relative border-t border-primary/5">
         <div class="container mx-auto px-6">
             <div class="text-center max-w-2xl mx-auto mb-16">
@@ -191,8 +220,9 @@
             </div>
 
             <div class="mt-16 text-center">
-                <a href="#menu"
-                    class="inline-flex items-center px-10 py-4 bg-primary text-white rounded-full font-semibold shadow-lg hover:shadow-vintage hover:bg-secondary transition-all transform hover:-translate-y-1">
+                <a id="menu-section-cta" href="#"
+                    class="inline-flex items-center gap-3 px-10 py-4 bg-primary text-white rounded-full font-semibold shadow-lg hover:shadow-vintage hover:bg-secondary transition-all transform hover:-translate-y-1">
+                    <!-- Updated by JS -->
                     Đặt Món Ngay
                 </a>
             </div>
@@ -202,14 +232,17 @@
     <!-- Reviews & Map Section -->
     <section id="reviews-location" class="py-24 bg-white">
         <div class="container mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-accent font-serif italic text-xl">Từ Google Maps</span>
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-text mt-2 mb-4">Khách Hàng Nói Gì?</h2>
+                <p class="text-text/70 font-light">Đánh giá thực từ khách đã ghé Tiệm Bánh DAN</p>
+            </div>
+
             <div class="grid lg:grid-cols-2 gap-16 items-stretch">
                 <!-- Left: Google Reviews -->
                 <div class="flex flex-col">
-                    <div class="mb-8">
-                        <h2 class="font-display text-4xl font-bold text-text mb-4">Khách Hàng Nói Gì?</h2>
-                        <div id="google-rating-summary" class="flex items-center gap-4">
-                            <!-- Injected via JS -->
-                        </div>
+                    <div id="google-rating-summary" class="mb-8">
+                        <!-- Injected via JS -->
                     </div>
 
                     <div id="reviews-container" class="space-y-6 flex-grow">
@@ -217,10 +250,14 @@
                     </div>
 
                     <div class="mt-8">
-                        <a id="google-maps-link" href="#" target="_blank"
-                            class="inline-flex items-center font-bold text-accent hover:underline">
+                        <a id="google-maps-link" href="#" target="_blank" rel="noopener"
+                            class="inline-flex items-center font-bold text-accent hover:underline gap-2">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                            </svg>
                             Xem tất cả đánh giá trên Google Maps
-                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
                                 </path>
@@ -231,16 +268,24 @@
 
                 <!-- Right: Map -->
                 <div
-                    class="h-[400px] lg:h-auto min-h-[400px] rounded-3xl overflow-hidden shadow-vintage border-8 border-surface relative group">
+                    class="h-[480px] lg:h-auto min-h-[400px] rounded-3xl overflow-hidden shadow-vintage border-8 border-surface relative group">
                     <div id="google-map-iframe"
                         class="w-full h-full grayscale group-hover:grayscale-0 transition-all duration-700">
                         <!-- Iframe injected via JS -->
                     </div>
                     <div class="absolute bottom-6 left-6 right-6">
-                        <div class="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white/20">
-                            <h4 class="font-bold text-primary mb-1">Ghé thăm chúng tôi</h4>
+                        <div class="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-white/20">
+                            <h4 class="font-bold text-primary mb-1 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                Ghé thăm chúng tôi
+                            </h4>
                             <p class="text-sm text-text/70 mb-4" id="display-address"></p>
-                            <a id="get-directions-btn" href="#" target="_blank"
+                            <a id="get-directions-btn" href="#" target="_blank" rel="noopener"
                                 class="block w-full text-center py-3 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition-colors">
                                 Chỉ đường trên Maps
                             </a>
@@ -251,45 +296,81 @@
         </div>
     </section>
 
-
-
-    <!-- Gallery Section (Masonry-like) -->
+    <!-- Gallery Section — Teaser 6 ảnh -->
     <section id="gallery" class="py-24 bg-surface">
-        <div class="container mx-auto px-6 mb-12 flex justify-between items-end">
+        <div class="container mx-auto px-6 mb-12 flex justify-between items-end flex-wrap gap-4">
             <div>
                 <h2 class="font-display text-4xl font-bold text-text">Thư Viện Ảnh</h2>
+                <p class="text-text/60 mt-2 font-light">Những khoảnh khắc ngọt ngào tại Tiệm Bánh DAN</p>
                 <div class="w-20 h-1 bg-primary rounded-full mt-4"></div>
             </div>
-            <a href="#" class="hidden md:block text-primary font-medium hover:text-accent transition-colors">Xem
-                Instagram @tiembanhdan</a>
+            <a id="gallery-instagram-link" href="#" target="_blank" rel="noopener"
+                class="text-primary font-semibold hover:text-accent transition-colors flex items-center gap-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                </svg>
+                Xem Instagram @tiembanhdan
+            </a>
         </div>
 
         <div class="container mx-auto px-6">
             <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[200px]">
-                <!-- Gallery injected via JS -->
+                <!-- Up to 6 gallery images injected via JS -->
+            </div>
+
+            <!-- CTA Xem thêm -->
+            <div class="mt-10 text-center">
+                <a id="gallery-more-cta" href="#" target="_blank" rel="noopener"
+                    class="inline-flex items-center gap-2 px-8 py-3 border-2 border-primary text-primary rounded-full font-semibold hover:bg-primary hover:text-white transition-all duration-300">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
+                    Xem Thêm Trên Instagram
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Location & Footer -->
+    <!-- Footer -->
     <footer class="bg-text text-white/80 pt-24 pb-8">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-3 gap-12 mb-16">
+                <!-- Col 1: Brand + Social -->
                 <div class="space-y-6">
                     <a href="#" class="font-display text-3xl font-bold text-white tracking-tight">Tiệm Bánh <span
                             class="text-accent">DAN</span></a>
                     <p class="text-white/60 leading-relaxed">Không gian ấm cúng, hương vị tuyệt hảo. Nơi lưu giữ những
                         khoảnh khắc ngọt ngào của bạn.</p>
-                    <div class="flex space-x-4">
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-all"><i
-                                class="fab fa-facebook-f">f</i></a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-all"><i
-                                class="fab fa-instagram">in</i></a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-all"><i
-                                class="fab fa-tiktok">t</i></a>
+                    <div class="flex space-x-3">
+                        <!-- Facebook -->
+                        <a id="footer-facebook" href="#" target="_blank" rel="noopener"
+                            aria-label="Facebook Tiệm Bánh DAN"
+                            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                            </svg>
+                        </a>
+                        <!-- Instagram -->
+                        <a id="footer-instagram" href="#" target="_blank" rel="noopener"
+                            aria-label="Instagram Tiệm Bánh DAN"
+                            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                        </a>
+                        <!-- Zalo -->
+                        <a id="footer-zalo" href="#" target="_blank" rel="noopener" aria-label="Zalo Tiệm Bánh DAN"
+                            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12.49 3C7.17 3 2.86 7.01 2.86 11.99c0 1.72.48 3.32 1.32 4.68L3 21l4.5-1.15A9.44 9.44 0 0 0 12.49 21C17.82 21 22 16.99 22 12S17.82 3 12.49 3zm4.65 13.12c-.21.55-1.21.98-1.68 1.01-.47.03-.48.35-3.1-.72-2.62-1.07-4.24-3.79-4.37-3.97-.13-.18-1.07-1.46-1.07-2.78S7.5 8.37 7.77 8.07c.27-.3.59-.38.79-.38.2 0 .39.001.56.01.18.01.42-.07.66.53.24.6.83 2.07.9 2.22.07.15.12.33.02.53-.1.2-.15.32-.3.49-.15.17-.31.38-.45.51-.15.13-.3.27-.13.54.17.27.77 1.29 1.65 2.09 1.13 1.01 2.09 1.33 2.38 1.47.29.14.46.12.63-.07.17-.19.73-.88.92-1.18.19-.3.39-.25.65-.15.26.1 1.65.8 1.93.94.28.14.47.21.54.33.07.12.07.68-.14 1.23z" />
+                            </svg>
+                        </a>
+                        <!-- Admin link -->
                         <a href="admin.html" title="Admin Login"
                             class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-accent hover:text-white transition-all text-white/20 hover:text-white">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -302,9 +383,11 @@
                     </div>
                 </div>
 
+                <!-- Col 2: Contact Info -->
                 <div>
-                    <h4 class="font-display text-xl font-bold text-white mb-6">Liên Hệ</h4>
+                    <h4 class="font-display text-xl font-bold text-white mb-6">Liên Hệ & Đặt Bánh</h4>
                     <ul class="space-y-4">
+                        <!-- Address -->
                         <li class="flex items-start gap-4">
                             <svg class="w-6 h-6 text-accent mt-1 flex-shrink-0" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
@@ -313,8 +396,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            <span class="text-white/70" id="contact-address"></span>
+                            <a id="footer-maps-link" href="#" target="_blank" rel="noopener"
+                                class="text-white/70 hover:text-accent transition-colors"><span
+                                    id="contact-address"></span></a>
                         </li>
+                        <!-- Phone -->
                         <li class="flex items-start gap-4">
                             <svg class="w-6 h-6 text-accent mt-1 flex-shrink-0" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
@@ -323,17 +409,25 @@
                             </svg>
                             <span class="text-white/70" id="contact-phone"></span>
                         </li>
+                        <!-- Zalo CTA -->
+                        <li class="flex items-start gap-4">
+                            <svg class="w-6 h-6 text-accent mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12.49 3C7.17 3 2.86 7.01 2.86 11.99c0 1.72.48 3.32 1.32 4.68L3 21l4.5-1.15A9.44 9.44 0 0 0 12.49 21C17.82 21 22 16.99 22 12S17.82 3 12.49 3z" />
+                            </svg>
+                            <a id="footer-zalo-cta" href="#" target="_blank" rel="noopener"
+                                class="text-accent font-semibold hover:underline">Nhắn Zalo Đặt Bánh</a>
+                        </li>
                     </ul>
                 </div>
 
+                <!-- Col 3: Hours -->
                 <div>
                     <h4 class="font-display text-xl font-bold text-white mb-6">Giờ Mở Cửa</h4>
                     <ul class="space-y-4 text-white/70" id="contact-hours-list">
                         <!-- Filled by JS -->
                     </ul>
                 </div>
-
-
             </div>
 
             <div class="border-t border-white/10 pt-8 text-center text-sm text-white/40">
@@ -341,6 +435,19 @@
             </div>
         </div>
     </footer>
+
+    <!-- Mobile Sticky CTA Bar -->
+    <div
+        class="mobile-sticky-cta fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-primary/10 p-3 gap-2 shadow-2xl">
+        <a id="mobile-cta-zalo" href="#"
+            class="flex-1 flex items-center justify-center gap-2 py-3 bg-accent text-white rounded-xl font-bold text-sm">
+            💬 Nhắn Zalo
+        </a>
+        <a id="mobile-cta-call" href="#"
+            class="flex-1 flex items-center justify-center gap-2 py-3 bg-primary text-white rounded-xl font-bold text-sm">
+            📞 Gọi Ngay
+        </a>
+    </div>
 
     <!-- Scripts -->
     <script>
@@ -384,7 +491,34 @@
             }
         });
 
-
+        // Wire up mobile sticky CTAs after module loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // We can't import here (inline), so we read from DOM after module has run
+            setTimeout(() => {
+                const zeroCta = document.getElementById('mobile-cta-zalo');
+                const callCta = document.getElementById('mobile-cta-call');
+                const orderBtn = document.getElementById('menu-section-cta');
+                if (zeroCta && orderBtn) {
+                    zeroCta.href = orderBtn.href || '#';
+                }
+                const callLink = document.querySelector('#hero-cta-container a[href^="tel"]');
+                if (callCta) {
+                    callCta.href = callLink ? callLink.href : '#';
+                }
+                // Also update footer zalo cta
+                const footerZaloCta = document.getElementById('footer-zalo-cta');
+                const footerZalo = document.getElementById('footer-zalo');
+                if (footerZaloCta && footerZalo) {
+                    footerZaloCta.href = footerZalo.href || '#';
+                }
+                // Update gallery more cta
+                const galleryCta = document.getElementById('gallery-more-cta');
+                const galleryInsta = document.getElementById('gallery-instagram-link');
+                if (galleryCta && galleryInsta) {
+                    galleryCta.href = galleryInsta.href || '#';
+                }
+            }, 200);
+        });
     </script>
 </body>
 

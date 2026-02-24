@@ -28,8 +28,8 @@
             }
         }
     </script>
-  <script type="module" crossorigin src="/assets/admin-BrjQgbIb.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/data-XfQZq-iO.js">
+  <script type="module" crossorigin src="/assets/admin-ct3fMSP5.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/data-oOYYI1OB.js">
 </head>
 
 <body class="bg-gray-100 text-text font-sans antialiased min-h-screen">
@@ -189,50 +189,104 @@
 
                 <!-- Contact Tab -->
                 <div id="tab-contact" class="tab-content hidden animate-fade-in">
-                    <h2 class="text-2xl font-serif font-bold text-text mb-6">Liên Hệ & Bản Đồ</h2>
+                    <h2 class="text-2xl font-serif font-bold text-text mb-2">Liên Hệ & Bản Đồ</h2>
+                    <p class="text-sm text-gray-500 mb-6">Thông tin hiển thị trên homepage, footer và các nút CTA đặt
+                        hàng.</p>
                     <form id="contact-form" class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Địa Chỉ</label>
-                            <input type="text" id="contact-address-input"
-                                class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Số Điện Thoại</label>
-                            <input type="text" id="contact-phone-input"
-                                class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Giờ Mở Cửa</label>
-                            <input type="text" id="contact-hours-input"
-                                class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
+
+                        <!-- Basic Info -->
+                        <div class="p-4 bg-amber-50 rounded-xl border border-amber-100 space-y-4">
+                            <h3 class="font-bold text-secondary text-sm uppercase tracking-wider">Thông Tin Cơ Bản</h3>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Google Rating (ví dụ:
-                                    4.9)</label>
-                                <input type="number" step="0.1" id="contact-google-rating-input"
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Địa Chỉ <span
+                                        class="text-red-400 text-xs">(hiển thị footer & bản đồ)</span></label>
+                                <input type="text" id="contact-address-input"
+                                    placeholder="vd: 123 Nguyễn Ái Quốc, Biên Hòa"
                                     class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Số lượng Reviews</label>
-                                <input type="number" id="contact-google-count-input"
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Số Điện Thoại <span
+                                        class="text-red-400 text-xs">(dùng cho nút Gọi)</span></label>
+                                <input type="text" id="contact-phone-input" placeholder="vd: 090 123 4567"
+                                    class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Giờ Mở Cửa <span
+                                        class="text-gray-400 text-xs">(dùng dấu phẩy để phân cách nhiều
+                                        dòng)</span></label>
+                                <input type="text" id="contact-hours-input"
+                                    placeholder="vd: Thứ 2-6: 07:00-22:00, Thứ 7-CN: 08:00-23:00"
                                     class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
                             </div>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Google Maps Listing URL (Link mở
-                                tab mới)</label>
-                            <input type="text" id="contact-maps-url-input"
-                                class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
+
+                        <!-- Order Channels -->
+                        <div class="p-4 bg-green-50 rounded-xl border border-green-100 space-y-4">
+                            <h3 class="font-bold text-green-700 text-sm uppercase tracking-wider">Kênh Đặt Hàng <span
+                                    class="text-xs font-normal text-green-600">(nút CTA trên trang)</span></h3>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    🟢 Link Zalo <span class="text-red-400 text-xs">(ưu tiên — dùng cho nút "Nhắn Zalo
+                                        Đặt Món")</span>
+                                </label>
+                                <input type="url" id="contact-zalo-input" placeholder="vd: https://zalo.me/0901234567"
+                                    class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                                <p class="text-xs text-gray-400 mt-1">Vào Zalo > Xem trang cá nhân > Sao chép link. Hoặc
+                                    dùng https://zalo.me/SĐT</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">📘 Link Facebook
+                                    Page</label>
+                                <input type="url" id="contact-facebook-input"
+                                    placeholder="vd: https://facebook.com/tiembanhdan"
+                                    class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">📷 Link Instagram</label>
+                                <input type="url" id="contact-instagram-input"
+                                    placeholder="vd: https://instagram.com/tiembanhdan"
+                                    class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Google Bản Đồ Embed URL (Iframe
-                                src)</label>
-                            <input type="text" id="contact-map-input"
-                                class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
+
+                        <!-- Google -->
+                        <div class="p-4 bg-blue-50 rounded-xl border border-blue-100 space-y-4">
+                            <h3 class="font-bold text-blue-700 text-sm uppercase tracking-wider">Google Maps & Reviews
+                            </h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Google Rating <span
+                                            class="text-gray-400 text-xs">(vd: 4.9)</span></label>
+                                    <input type="number" step="0.1" min="1" max="5" id="contact-google-rating-input"
+                                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Số lượng Reviews</label>
+                                    <input type="number" id="contact-google-count-input"
+                                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Google Maps URL <span
+                                        class="text-gray-400 text-xs">(link mở tab mới)</span></label>
+                                <input type="url" id="contact-maps-url-input"
+                                    placeholder="vd: https://maps.app.goo.gl/..."
+                                    class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Google Maps Embed URL <span
+                                        class="text-gray-400 text-xs">(dán src từ Google Maps > Share >
+                                        Embed)</span></label>
+                                <input type="url" id="contact-map-input"
+                                    placeholder="vd: https://www.google.com/maps/embed?pb=..."
+                                    class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                            </div>
                         </div>
+
                         <div class="border-t pt-6">
-                            <h3 class="font-bold text-lg mb-4">Quản lý 3 Reviews nổi bật</h3>
+                            <h3 class="font-bold text-lg mb-2">Quản lý 3 Reviews nổi bật</h3>
+                            <p class="text-xs text-gray-400 mb-4">Hiển thị trong section "Khách Hàng Nói Gì?" trên trang
+                                chủ.</p>
                             <div id="admin-reviews-list" class="space-y-4">
                                 <!-- Review inputs will be injected here -->
                             </div>
