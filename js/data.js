@@ -87,7 +87,7 @@ export const initialData = {
                 image: "assets/img3.png",
                 tag: "Hot",
                 tagColor: "secondary",
-                category: "món mặn"
+                category: "bánh sinh nhật"
             }
         ]
     },
@@ -112,6 +112,14 @@ export const initialData = {
             "Thứ 2 - Thứ 6: 07:00 - 22:00",
             "Thứ 7 - Chủ Nhật: 08:00 - 23:00"
         ],
-        mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.066498263725!2d106.84888931481977!3d10.882570160205862!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8fc2264b3ab%3A0x6b4532646d526768!2zVHLu4bqjbmcgRMOgaSwgQmnDqm4gSMOyYSwgxJDhu5NuZyBOYWksIFZpZXRuYW0!5e0!3m2!1sen!2s!4v1680000000000!5m2!1sen!2s"
+        mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.066498263725!2d106.84888931481977!3d10.882570160205862!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8fc2264b3ab%3A0x6b4532646d526768!2zVHLu4bqjbmcgRMOgaSwgQmnDqm4gSMOyYSwgxJDhu5NuZyBOYWksIFZpZXRuYW0!5e0!3m2!1sen!2s!4v1680000000000!5m2!1sen!2s",
+        googleRating: 4.9,
+        googleReviewCount: 156,
+        googleMapsUrl: "https://maps.app.goo.gl/uX3L5q6J7Z8A9B1C2",
+        reviews: [
+            { name: "Minh Anh", rating: 5, text: "Bánh ở đây cực kỳ thơm ngon, nhất là bánh dâu tây. Không gian retro rất ấm cúng.", date: "2 tuần trước" },
+            { name: "Hoàng Nam", rating: 5, text: "Tiệm bánh yêu thích của gia đình tôi. Bánh luôn tươi mới mỗi ngày và nhân viên rất lịch sự.", date: "1 tháng trước" },
+            { name: "Thanh Trúc", rating: 4, text: "Vị bánh không quá ngọt, rất vừa miệng. Sẽ quay lại thử thêm các loại bánh mặn khác.", date: "3 tuần trước" }
+        ]
     }
 };

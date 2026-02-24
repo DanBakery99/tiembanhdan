@@ -9,11 +9,11 @@
         content="Tiệm Bánh DAN - Thưởng thức bánh ngọt tuyệt hảo và cà phê đậm đà tại không gian ấm cúng. Đặt bàn ngay để trải nghiệm.">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Outfit (Display) & Work Sans (Body) -->
+    <!-- Google Fonts: Playfair Display (Retro Serif) & Inter (Modern Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Work+Sans:wght@300;400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
         rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
@@ -23,36 +23,26 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#78350F', // Rich Brown
-                        secondary: '#92400E', // Lighter Brown
-                        accent: '#F59E0B', // Warm Amber
-                        background: '#FFFBEB', // Light Warm Cream
-                        text: '#451A03', // Dark Brown Text
-                        muted: '#78350F', // Muted Brown
-                        surface: '#FEF3C7', // Slightly darker cream for cards
+                        primary: '#4B2C20', // Espresso
+                        secondary: '#8D6E63', // Warm Terracotta
+                        accent: '#C2185B', // Rose Pink (Retro contrast)
+                        background: '#FFFBF0', // Rich Ivory
+                        text: '#2D1B14', // Very Dark Brown
+                        surface: '#FDF5E6', // Old Lace
+                        gold: '#A67C52', // Vintage Gold
                     },
                     fontFamily: {
-                        sans: ['Work Sans', 'sans-serif'],
-                        serif: ['Outfit', 'sans-serif'],
-                        display: ['Outfit', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        display: ['Playfair Display', 'serif'],
                     },
                     boxShadow: {
-                        'glow': '0 0 20px rgba(245, 158, 11, 0.3)',
-                        'card': '0 10px 30px -5px rgba(0, 0, 0, 0.1)',
+                        'vintage': '0 4px 20px -2px rgba(75, 44, 32, 0.15)',
+                        'badge': '0 2px 10px rgba(194, 24, 91, 0.2)',
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
                         'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        },
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
                     }
                 }
             }
@@ -80,18 +70,16 @@
             </button>
 
             <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center space-x-8">
+            <div class="hidden md:flex items-center space-x-10">
                 <a href="#home" class="nav-link font-medium text-lg text-text hover:text-accent transition-colors">Trang
                     Chủ</a>
-                <a href="#about" class="nav-link font-medium text-lg text-text hover:text-accent transition-colors">Câu
-                    Chuyện</a>
-                <a href="#menu" class="nav-link font-medium text-lg text-text hover:text-accent transition-colors">Thực
+                <a href="#menu"
+                    class="nav-link font-bold text-lg text-primary border-b-2 border-accent hover:text-accent transition-colors">Thực
                     Đơn</a>
                 <a href="#gallery"
-                    class="nav-link font-medium text-lg text-text hover:text-accent transition-colors">Hình
-                    Ảnh</a>
-
-
+                    class="nav-link font-medium text-lg text-text hover:text-accent transition-colors">Hình Ảnh</a>
+                <a href="#reviews-location"
+                    class="nav-link font-medium text-lg text-text hover:text-accent transition-colors">Vị Trí</a>
             </div>
         </div>
 
@@ -105,9 +93,9 @@
                 </svg>
             </button>
             <a href="#home" class="mobile-link text-2xl font-display font-medium text-text">Trang Chủ</a>
-            <a href="#about" class="mobile-link text-2xl font-display font-medium text-text">Câu Chuyện</a>
-            <a href="#menu" class="mobile-link text-2xl font-display font-medium text-text">Thực Đơn</a>
+            <a href="#menu" class="mobile-link text-2xl font-display font-medium text-primary font-bold">Thực Đơn</a>
             <a href="#gallery" class="mobile-link text-2xl font-display font-medium text-text">Hình Ảnh</a>
+            <a href="#reviews-location" class="mobile-link text-2xl font-display font-medium text-text">Vị Trí</a>
 
 
         </div>
@@ -142,7 +130,7 @@
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
                     <a href="#menu"
-                        class="px-8 py-4 bg-primary text-white rounded-full font-semibold shadow-lg hover:shadow-glow hover:bg-secondary transition-all transform hover:-translate-y-1 text-center">
+                        class="px-8 py-4 bg-primary text-white rounded-full font-semibold shadow-lg hover:shadow-vintage hover:bg-secondary transition-all transform hover:-translate-y-1 text-center">
                         Xem Thực Đơn
                     </a>
 
@@ -184,78 +172,79 @@
         </div>
     </header>
 
-    <!-- Chef Story Section -->
-    <section id="about" class="py-24 bg-white relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-background to-white"></div>
-        <div class="container mx-auto px-6">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <div class="relative order-2 md:order-1">
-                    <div class="absolute -inset-4 bg-secondary/10 rounded-full blur-2xl"></div>
-                    <img id="chef-image" src="" alt="Chef Portrait"
-                        class="relative z-10 rounded-2xl shadow-2xl w-full object-cover aspect-[3/4] grayscale hover:grayscale-0 transition-all duration-700">
-                    <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-xl z-20 max-w-xs">
-                        <p class="font-display text-xl font-bold text-primary">"Nấu ăn là nghệ thuật, người đầu bếp là
-                            nghệ sĩ."</p>
-                        <p class="text-sm text-text/60 mt-2">- Chef Dan</p>
-                    </div>
-                </div>
-
-                <div class="order-1 md:order-2 space-y-6">
-                    <h2 class="font-display text-4xl md:text-5xl font-bold text-text">Câu Chuyện <br> <span
-                            class="text-accent">Bếp Trưởng</span></h2>
-                    <div class="w-20 h-1 bg-primary rounded-full"></div>
-                    <div id="chef-story-content" class="text-lg text-text/70 space-y-4 leading-relaxed">
-                        <!-- Content injected via JS -->
-                    </div>
-                    <div class="pt-6">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Signature_sample.svg"
-                            alt="Chef Signature" class="h-12 opacity-60">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Menu Section (Horizontal Scroll / Grid) -->
-    <section id="menu" class="py-24 bg-surface relative">
+    <!-- Menu Section (Moved Up) -->
+    <section id="menu" class="py-24 bg-surface relative border-t border-primary/5">
         <div class="container mx-auto px-6">
             <div class="text-center max-w-2xl mx-auto mb-16">
-                <span class="text-accent font-semibold tracking-wider uppercase">Khám Phá Hương Vị</span>
-                <h2 class="font-display text-4xl md:text-5xl font-bold text-text mt-2 mb-6">Thực Đơn Nổi Bật</h2>
-                <p class="text-text/70 text-lg">Những món ăn được chế biến tỉ mỉ, mang đậm dấu ấn riêng của Tiệm Bánh
-                    DAN.</p>
+                <span class="text-accent font-serif italic text-xl">Homemade Selection</span>
+                <h2 class="font-display text-5xl md:text-6xl font-bold text-text mt-2 mb-6">Thực Đơn Nổi Bật</h2>
+                <p class="text-text/70 text-lg font-light">Những món ăn được chế biến tỉ mỉ, mang đậm dấu ấn riêng của
+                    Tiệm Bánh DAN.</p>
             </div>
 
-            <!-- Categories -->
-            <div class="flex justify-center gap-4 mb-12 flex-wrap">
-                <button
-                    class="px-6 py-2 rounded-full bg-primary text-white font-medium shadow-md hover:shadow-lg transition-all">Tất
-                    Cả</button>
-                <button
-                    class="px-6 py-2 rounded-full bg-white text-text hover:bg-primary/5 font-medium border border-primary/10 transition-all">Bánh
-                    Ngọt</button>
-                <button
-                    class="px-6 py-2 rounded-full bg-white text-text hover:bg-primary/5 font-medium border border-primary/10 transition-all">Đồ
-                    Uống</button>
-                <button
-                    class="px-6 py-2 rounded-full bg-white text-text hover:bg-primary/5 font-medium border border-primary/10 transition-all">Món
-                    Mặn</button>
-            </div>
+            <div class="flex justify-center gap-4 mb-12 flex-wrap" id="category-filters"></div>
 
-            <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 <!-- Menu Items Injected via JS -->
             </div>
 
             <div class="mt-16 text-center">
-                <a href="#"
-                    class="inline-flex items-center font-semibold text-primary hover:text-secondary group transition-colors">
-                    <span>Xem Toàn Bộ Menu</span>
-                    <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                    </svg>
+                <a href="#menu"
+                    class="inline-flex items-center px-10 py-4 bg-primary text-white rounded-full font-semibold shadow-lg hover:shadow-vintage hover:bg-secondary transition-all transform hover:-translate-y-1">
+                    Đặt Món Ngay
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews & Map Section -->
+    <section id="reviews-location" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-stretch">
+                <!-- Left: Google Reviews -->
+                <div class="flex flex-col">
+                    <div class="mb-8">
+                        <h2 class="font-display text-4xl font-bold text-text mb-4">Khách Hàng Nói Gì?</h2>
+                        <div id="google-rating-summary" class="flex items-center gap-4">
+                            <!-- Injected via JS -->
+                        </div>
+                    </div>
+
+                    <div id="reviews-container" class="space-y-6 flex-grow">
+                        <!-- 3 Review cards injected via JS -->
+                    </div>
+
+                    <div class="mt-8">
+                        <a id="google-maps-link" href="#" target="_blank"
+                            class="inline-flex items-center font-bold text-accent hover:underline">
+                            Xem tất cả đánh giá trên Google Maps
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Map -->
+                <div
+                    class="h-[400px] lg:h-auto min-h-[400px] rounded-3xl overflow-hidden shadow-vintage border-8 border-surface relative group">
+                    <div id="google-map-iframe"
+                        class="w-full h-full grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <!-- Iframe injected via JS -->
+                    </div>
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <div class="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white/20">
+                            <h4 class="font-bold text-primary mb-1">Ghé thăm chúng tôi</h4>
+                            <p class="text-sm text-text/70 mb-4" id="display-address"></p>
+                            <a id="get-directions-btn" href="#" target="_blank"
+                                class="block w-full text-center py-3 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition-colors">
+                                Chỉ đường trên Maps
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -283,7 +272,7 @@
     <!-- Location & Footer -->
     <footer class="bg-text text-white/80 pt-24 pb-8">
         <div class="container mx-auto px-6">
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+            <div class="grid md:grid-cols-3 gap-12 mb-16">
                 <div class="space-y-6">
                     <a href="#" class="font-display text-3xl font-bold text-white tracking-tight">Tiệm Bánh <span
                             class="text-accent">DAN</span></a>
@@ -342,13 +331,7 @@
                     </ul>
                 </div>
 
-                <div>
-                    <h4 class="font-display text-xl font-bold text-white mb-6">Bản Đồ</h4>
-                    <div id="map-container"
-                        class="rounded-xl overflow-hidden h-40 shadow-lg grayscale hover:grayscale-0 transition-all">
-                        <!-- Map Embed -->
-                    </div>
-                </div>
+
             </div>
 
             <div class="border-t border-white/10 pt-8 text-center text-sm text-white/40">

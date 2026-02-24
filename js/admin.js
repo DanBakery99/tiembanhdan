@@ -111,9 +111,9 @@ const renderMenuEditor = () => {
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <select class="p-2 border rounded w-full text-sm" onchange="updateMenuItem(${index}, 'category', this.value)">
-                        <option value="bánh ngọt" ${item.category === 'bánh ngọt' ? 'selected' : ''}>🍰 Bánh Ngọt</option>
+                        <option value="bánh sinh nhật" ${item.category === 'bánh sinh nhật' ? 'selected' : ''}>🎂 Bánh Sinh Nhật</option>
                         <option value="đồ uống" ${item.category === 'đồ uống' ? 'selected' : ''}>☕ Đồ Uống</option>
-                        <option value="món mặn" ${item.category === 'món mặn' ? 'selected' : ''}>🍔 Món Mặn</option>
+                        <option value="bánh ngọt" ${item.category === 'bánh ngọt' ? 'selected' : ''}>🍰 Bánh Ngọt</option>
                     </select>
                     <div class="text-xs text-gray-500 flex items-center px-2">
                         <span>Phân loại: <strong>${item.category || 'chưa chọn'}</strong></span>
@@ -257,15 +257,48 @@ const renderAboutEditor = () => {
 
 /* Contact Editor */
 const renderContactEditor = () => {
-    document.getElementById('contact-address-input').value = appData.contact.address;
-    document.getElementById('contact-phone-input').value = appData.contact.phone;
-    document.getElementById('contact-hours-input').value = appData.contact.hours;
-    document.getElementById('contact-map-input').value = appData.contact.mapEmbed;
+    document.getElementById('contact-address-input').value = appData.contact.address || '';
+    document.getElementById('contact-phone-input').value = appData.contact.phone || '';
+    document.getElementById('contact-hours-input').value = Array.isArray(appData.contact.hours) ? appData.contact.hours.join(', ') : (appData.contact.hours || '');
+    document.getElementById('contact-map-input').value = appData.contact.mapEmbed || '';
 
+    // New Google Fields
+    document.getElementById('contact-google-rating-input').value = appData.contact.googleRating || 5;
+    document.getElementById('contact-google-count-input').value = appData.contact.googleReviewCount || 0;
+    document.getElementById('contact-maps-url-input').value = appData.contact.googleMapsUrl || '';
+
+    // Event Listeners
     document.getElementById('contact-address-input').onchange = (e) => appData.contact.address = e.target.value;
     document.getElementById('contact-phone-input').onchange = (e) => appData.contact.phone = e.target.value;
-    document.getElementById('contact-hours-input').onchange = (e) => appData.contact.hours = e.target.value;
+    document.getElementById('contact-hours-input').onchange = (e) => appData.contact.hours = e.target.value.split(',').map(h => h.trim()).filter(h => h !== '');
     document.getElementById('contact-map-input').onchange = (e) => appData.contact.mapEmbed = e.target.value;
+    document.getElementById('contact-google-rating-input').onchange = (e) => appData.contact.googleRating = parseFloat(e.target.value);
+    document.getElementById('contact-google-count-input').onchange = (e) => appData.contact.googleReviewCount = parseInt(e.target.value);
+    document.getElementById('contact-maps-url-input').onchange = (e) => appData.contact.googleMapsUrl = e.target.value;
+
+    // Render 3 Reviews Editor
+    const reviewsList = document.getElementById('admin-reviews-list');
+    if (reviewsList) {
+        if (!appData.contact.reviews) appData.contact.reviews = [];
+        // Ensure we always have 3 reviews
+        while (appData.contact.reviews.length < 3) {
+            appData.contact.reviews.push({ name: "Khách hàng", rating: 5, text: "", date: "vừa xong" });
+        }
+
+        reviewsList.innerHTML = appData.contact.reviews.map((rev, i) => `
+            <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-sm text-primary">Review #${i + 1}</span>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="text" value="${rev.name}" placeholder="Tên khách" class="p-2 border rounded w-full text-xs" onchange="appData.contact.reviews[${i}].name = this.value">
+                    <input type="number" min="1" max="5" value="${rev.rating}" placeholder="Rating (1-5)" class="p-2 border rounded w-full text-xs" onchange="appData.contact.reviews[${i}].rating = parseInt(this.value)">
+                </div>
+                <input type="text" value="${rev.date}" placeholder="Thời gian (vd: 2 tuần trước)" class="p-2 border rounded w-full text-xs" onchange="appData.contact.reviews[${i}].date = this.value">
+                <textarea placeholder="Nội dung review..." class="p-2 border rounded w-full text-xs h-16" onchange="appData.contact.reviews[${i}].text = this.value">${rev.text}</textarea>
+            </div>
+        `).join('');
+    }
 };
 
 
