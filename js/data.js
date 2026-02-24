@@ -14,7 +14,7 @@ export const initialData = {
     },
     about: {
         title: "Câu Chuyện Bếp Trưởng",
-        image: "assets/img4.png", // Will need a chef-like or kitchen shot here
+        image: "assets/img4.png",
         paragraphs: [
             "Hành trình của chúng tôi bắt đầu từ căn bếp nhỏ, nơi mùi hương của bơ và vani luôn lan tỏa mỗi sớm mai. Với hơn 10 năm kinh nghiệm, chúng tôi không chỉ làm bánh, mà còn gửi gắm tình yêu và sự tỉ mỉ vào từng chi tiết.",
             "Tại Tiệm Bánh DAN, chúng tôi tin rằng những nguyên liệu tự nhiên, không chất bảo quản mới tạo nên linh hồn của chiếc bánh. Mỗi ngày, chúng tôi dậy sớm để chọn lọc những quả dâu tây căng mọng nhất, những thanh chocolate nguyên chất để mang đến cho thực khách trải nghiệm vị giác trọn vẹn."
@@ -108,6 +108,9 @@ export const initialData = {
     contact: {
         address: "123 Đường Nguyễn Ái Quốc, P. Trảng Dài, Biên Hòa, Đồng Nai",
         phone: "090 123 4567",
+        zaloUrl: "https://zalo.me/0901234567",
+        facebookUrl: "https://facebook.com/tiembanhdan",
+        instagramUrl: "https://instagram.com/tiembanhdan",
         hours: [
             "Thứ 2 - Thứ 6: 07:00 - 22:00",
             "Thứ 7 - Chủ Nhật: 08:00 - 23:00"

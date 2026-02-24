@@ -267,6 +267,11 @@ const renderContactEditor = () => {
     document.getElementById('contact-google-count-input').value = appData.contact.googleReviewCount || 0;
     document.getElementById('contact-maps-url-input').value = appData.contact.googleMapsUrl || '';
 
+    // New Social / Order channel fields
+    document.getElementById('contact-zalo-input').value = appData.contact.zaloUrl || '';
+    document.getElementById('contact-facebook-input').value = appData.contact.facebookUrl || '';
+    document.getElementById('contact-instagram-input').value = appData.contact.instagramUrl || '';
+
     // Event Listeners
     document.getElementById('contact-address-input').onchange = (e) => appData.contact.address = e.target.value;
     document.getElementById('contact-phone-input').onchange = (e) => appData.contact.phone = e.target.value;
@@ -275,6 +280,9 @@ const renderContactEditor = () => {
     document.getElementById('contact-google-rating-input').onchange = (e) => appData.contact.googleRating = parseFloat(e.target.value);
     document.getElementById('contact-google-count-input').onchange = (e) => appData.contact.googleReviewCount = parseInt(e.target.value);
     document.getElementById('contact-maps-url-input').onchange = (e) => appData.contact.googleMapsUrl = e.target.value;
+    document.getElementById('contact-zalo-input').onchange = (e) => appData.contact.zaloUrl = e.target.value;
+    document.getElementById('contact-facebook-input').onchange = (e) => appData.contact.facebookUrl = e.target.value;
+    document.getElementById('contact-instagram-input').onchange = (e) => appData.contact.instagramUrl = e.target.value;
 
     // Render 3 Reviews Editor
     const reviewsList = document.getElementById('admin-reviews-list');
