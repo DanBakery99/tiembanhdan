@@ -452,3 +452,27 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(section);
     });
 });
+
+// Global image fallback: attach `error` handlers to replace broken images
+// with a safe placeholder so UI doesn't show missing image icons.
+const attachImageFallbacks = (fallback = '/assets/img1.png') => {
+    try {
+        document.querySelectorAll('img').forEach(img => {
+            if (img.dataset.fallbackBound) return;
+            img.addEventListener('error', () => {
+                if (!img.src || img.src === '' || img.naturalWidth === 0) {
+                    img.src = fallback;
+                }
+            });
+            // mark as bound to avoid duplicate handlers when re-rendering
+            img.dataset.fallbackBound = '1';
+        });
+    } catch {
+        // silent: defensive in case DOM not available during SSR/tests
+    }
+};
+
+// Ensure fallbacks are attached on load and after dynamic renders
+document.addEventListener('DOMContentLoaded', () => attachImageFallbacks());
+// Re-attach after short delay to catch images injected by scripts
+setTimeout(() => attachImageFallbacks(), 600);

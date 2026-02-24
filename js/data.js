@@ -7,14 +7,14 @@ export const initialData = {
         ctaOrder: "Đặt Món",
 
         backgroundImages: [
-            { src: "/assets/img1.png", label: "Signature Cakes" },
-            { src: "/assets/img2.jpg", label: "Fresh Pastries" },
-            { src: "/assets/img3.png", label: "Cozy Space" }
+            { src: "/assets/img1.webp", label: "Signature Cakes" },
+            { src: "/assets/img2.webp", label: "Fresh Pastries" },
+            { src: "/assets/img3.webp", label: "Cozy Space" }
         ]
     },
     about: {
         title: "Câu Chuyện Bếp Trưởng",
-        image: "/assets/img4.png",
+        image: "/assets/img4.webp",
         paragraphs: [
             "Hành trình của chúng tôi bắt đầu từ căn bếp nhỏ, nơi mùi hương của bơ và vani luôn lan tỏa mỗi sớm mai. Với hơn 10 năm kinh nghiệm, chúng tôi không chỉ làm bánh, mà còn gửi gắm tình yêu và sự tỉ mỉ vào từng chi tiết.",
             "Tại Tiệm Bánh DAN, chúng tôi tin rằng những nguyên liệu tự nhiên, không chất bảo quản mới tạo nên linh hồn của chiếc bánh. Mỗi ngày, chúng tôi dậy sớm để chọn lọc những quả dâu tây căng mọng nhất, những thanh chocolate nguyên chất để mang đến cho thực khách trải nghiệm vị giác trọn vẹn."
@@ -34,7 +34,7 @@ export const initialData = {
                 name: "Strawberry Dream Cake",
                 description: "Lớp bánh chiffon mềm mịn kết hợp kem tươi và dâu đà lạt.",
                 price: "Liên hệ",
-                image: "/assets/img1.png",
+                image: "/assets/img1.webp",
                 tag: "Best Seller",
                 tagColor: "accent",
                 category: "bánh ngọt"
@@ -44,7 +44,7 @@ export const initialData = {
                 name: "Tiramisu Classic",
                 description: "Hương vị Ý đích thực với mascarpone béo ngậy và cà phê espresso.",
                 price: "Liên hệ",
-                image: "/assets/img3.png",
+                image: "/assets/img3.webp",
                 tag: "Must Try",
                 tagColor: "primary",
                 category: "bánh ngọt"
@@ -54,7 +54,7 @@ export const initialData = {
                 name: "Golden Croissant",
                 description: "Vỏ bánh ngàn lớp giòn tan, thơm lừng mùi bơ Pháp cao cấp.",
                 price: "Liên hệ",
-                image: "/assets/img2.jpg",
+                image: "/assets/img2.webp",
                 tag: "Fresh Daily",
                 tagColor: "secondary",
                 category: "bánh ngọt"
@@ -64,7 +64,7 @@ export const initialData = {
                 name: "Signature Matcha Latte",
                 description: "Trà xanh Nhật Bản thượng hạng kết hợp sữa tươi thanh trùng.",
                 price: "Liên hệ",
-                image: "/assets/img4.png",
+                image: "/assets/img4.webp",
                 tag: "New",
                 tagColor: "accent",
                 category: "đồ uống"
@@ -74,7 +74,7 @@ export const initialData = {
                 name: "Macaron Assorted",
                 description: "Bộ sưu tập 6 hương vị macaron ngọt ngào đầy màu sắc.",
                 price: "Liên hệ",
-                image: "/assets/img2.jpg",
+                image: "/assets/img2.webp",
                 tag: null,
                 tagColor: null,
                 category: "bánh ngọt"
@@ -84,7 +84,7 @@ export const initialData = {
                 name: "Chocolate Lava Cake",
                 description: "Bánh socola chảy quyến rũ, dùng kèm kem vani mát lạnh.",
                 price: "Liên hệ",
-                image: "/assets/img3.png",
+                image: "/assets/img3.webp",
                 tag: "Hot",
                 tagColor: "secondary",
                 category: "bánh sinh nhật"
@@ -95,14 +95,14 @@ export const initialData = {
         title: "Thư Viện Ảnh",
         subtitle: "Những khoảnh khắc đẹp tại Tiệm Bánh DAN",
         images: [
-            "/assets/img1.png",
-            "/assets/img2.jpg",
-            "/assets/img3.png",
-            "/assets/img4.png",
-            "/assets/img2.jpg",
-            "/assets/img1.png",
-            "/assets/img3.png",
-            "/assets/img4.png"
+            "/assets/img1.webp",
+            "/assets/img2.webp",
+            "/assets/img3.webp",
+            "/assets/img4.webp",
+            "/assets/img2.webp",
+            "/assets/img1.webp",
+            "/assets/img3.webp",
+            "/assets/img4.webp"
         ]
     },
     contact: {

@@ -7,8 +7,7 @@
     <title>Tiệm Bánh DAN - Bánh Ngọt Handmade Biên Hòa</title>
     <meta name="description"
         content="Tiệm Bánh DAN - Bánh ngọt handmade thơm ngon tại Biên Hòa. Đặt bánh sinh nhật, bánh kem, croissant, macaron. Giao hàng tận nơi. Nhắn Zalo để đặt ngay!">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS (built via PostCSS) -->
     <!-- Google Fonts: Playfair Display (Retro Serif) & Inter (Modern Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,37 +16,9 @@
         rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
-    <!-- Tailwind Config -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#4B2C20', // Espresso
-                        secondary: '#8D6E63', // Warm Terracotta
-                        accent: '#C2185B', // Rose Pink (Retro contrast)
-                        background: '#FFFBF0', // Rich Ivory
-                        text: '#2D1B14', // Very Dark Brown
-                        surface: '#FDF5E6', // Old Lace
-                        gold: '#A67C52', // Vintage Gold
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
-                        display: ['Playfair Display', 'serif'],
-                    },
-                    boxShadow: {
-                        'vintage': '0 4px 20px -2px rgba(75, 44, 32, 0.15)',
-                        'badge': '0 2px 10px rgba(194, 24, 91, 0.2)',
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Favicon (prevent default /favicon.ico 404) -->
+    <link rel="icon" href="/assets/img1.png">
+    <!-- Tailwind config moved to tailwind.config.cjs for PostCSS build -->
     <style>
         @keyframes fadeInUp {
             from {

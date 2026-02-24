@@ -13,7 +13,7 @@ const loadAdminData = () => {
         if (!parsed.gallery) parsed.gallery = _getInitialData().gallery;
         if (!parsed.contact) parsed.contact = _getInitialData().contact;
         return parsed;
-    } catch (e) {
+    } catch {
         return _getInitialData();
     }
 };
@@ -53,25 +53,66 @@ const processImageFile = (file) => {
     });
 };
 
-// Login Logic
+// Login Logic (secure-ish client-side flow)
 const loginModal = document.getElementById('login-modal');
 const dashboard = document.getElementById('admin-dashboard');
 const loginForm = document.getElementById('login-form');
 const loginError = document.getElementById('login-error');
 
-loginForm.addEventListener('submit', (e) => {
+const toHex = (buffer) => Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+const hashPassword = async (password) => {
+    const enc = new TextEncoder();
+    const data = enc.encode(password);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return toHex(hash);
+};
+
+// Replace plaintext password with a hashed password stored in localStorage.
+// On first use, user will be prompted to create an admin password.
+loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const password = document.getElementById('password').value;
-    if (password === 'Toobakery0810') { // Updated password
-        loginModal.classList.add('hidden');
-        dashboard.classList.remove('hidden');
-        initAdmin();
-    } else {
+    loginError.classList.add('hidden');
+    const password = document.getElementById('password').value || '';
+    if (!password) {
+        loginError.textContent = 'Vui lòng nhập mật khẩu';
+        loginError.classList.remove('hidden');
+        return;
+    }
+
+    try {
+        let storedHash = localStorage.getItem('adminHash');
+        if (!storedHash) {
+            // No password set: ask user to confirm creation of a new password
+            if (!confirm('Chưa có mật khẩu admin. Thiết lập mật khẩu mới?')) return;
+            const confirmPass = prompt('Nhập lại mật khẩu để xác nhận:');
+            if (confirmPass !== password) {
+                alert('Mật khẩu không khớp. Hãy thử lại.');
+                return;
+            }
+            const newHash = await hashPassword(password);
+            localStorage.setItem('adminHash', newHash);
+            storedHash = newHash;
+            alert('Mật khẩu admin đã được thiết lập.');
+        }
+
+        const attemptHash = await hashPassword(password);
+        if (attemptHash === storedHash) {
+            loginModal.classList.add('hidden');
+            dashboard.classList.remove('hidden');
+            initAdmin();
+        } else {
+            loginError.textContent = 'Mật khẩu không đúng';
+            loginError.classList.remove('hidden');
+        }
+    } catch (err) {
+        console.error('Login error', err);
+        loginError.textContent = 'Lỗi đăng nhập';
         loginError.classList.remove('hidden');
     }
 });
 
 document.getElementById('logout-btn').addEventListener('click', () => {
+    // Keep adminHash in localStorage but hide dashboard; reload to reset state
     location.reload();
 });
 

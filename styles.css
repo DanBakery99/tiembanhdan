@@ -1,11 +1,18 @@
 /* Global Styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @layer base {
     html {
         scroll-behavior: smooth;
     }
 
     body {
-        @apply bg-background text-text font-sans antialiased;
+        background: #FFFBF0;
+        color: #2D1B14;
+        font-family: Inter, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
 
     h1,
@@ -14,7 +21,8 @@
     h4,
     h5,
     h6 {
-        @apply font-display text-text;
+        font-family: 'Playfair Display', serif;
+        color: #2D1B14;
     }
 }
 
