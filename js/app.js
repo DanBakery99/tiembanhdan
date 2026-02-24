@@ -8,23 +8,39 @@ const loadData = () => {
 
     try {
         const parsed = JSON.parse(savedData);
-        // Check if data is outdated: old category 'món mặn' or missing Google fields
-        const hasOldCategory = parsed.menu?.items?.some(item => item.category === 'món mặn');
-        const missingGoogleFields = !parsed.contact?.googleRating;
 
-        if (hasOldCategory || missingGoogleFields) {
-            console.log('[Tiệm Bánh DAN] Dữ liệu cũ phát hiện, tự động cập nhật...');
-            localStorage.removeItem('siteData');
-            return initialData;
+        // Ensure core objects exist
+        if (!parsed.hero) parsed.hero = JSON.parse(JSON.stringify(initialData.hero));
+        if (!parsed.menu) parsed.menu = JSON.parse(JSON.stringify(initialData.menu));
+        if (!parsed.contact) parsed.contact = JSON.parse(JSON.stringify(initialData.contact));
+        if (!parsed.gallery) parsed.gallery = JSON.parse(JSON.stringify(initialData.gallery));
+
+        // Migration: Fix old category names instead of wiping
+        if (parsed.menu.items) {
+            parsed.menu.items.forEach(item => {
+                if (item.category === 'món mặn') item.category = 'bánh ngọt';
+            });
         }
-        // Merge missing new fields (like zaloUrl) from initialData
-        if (!parsed.contact.zaloUrl) parsed.contact.zaloUrl = initialData.contact.zaloUrl;
-        if (!parsed.contact.facebookUrl) parsed.contact.facebookUrl = initialData.contact.facebookUrl;
-        if (!parsed.contact.instagramUrl) parsed.contact.instagramUrl = initialData.contact.instagramUrl;
-        if (!parsed.hero) parsed.hero = initialData.hero;
+
+        // Merge missing sub-fields from initialData safely
+        const mergeFallback = (target, source) => {
+            for (const key in source) {
+                if (target[key] === undefined || target[key] === null || target[key] === '') {
+                    target[key] = source[key];
+                }
+            }
+        };
+
+        mergeFallback(parsed.contact, initialData.contact);
+
+        // Ensure hero background images structure
+        if (!parsed.hero.backgroundImages || parsed.hero.backgroundImages.length === 0) {
+            parsed.hero.backgroundImages = initialData.hero.backgroundImages;
+        }
+
         return parsed;
     } catch (e) {
-        localStorage.removeItem('siteData');
+        console.error("Lỗi khi tải dữ liệu từ localStorage:", e);
         return initialData;
     }
 };

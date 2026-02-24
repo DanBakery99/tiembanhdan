@@ -1,7 +1,24 @@
 import { initialData } from './data.js';
 
-const _saved = localStorage.getItem('siteData');
-let appData = _saved ? JSON.parse(_saved) : JSON.parse(JSON.stringify(initialData)); // Deep copy to avoid mutating import
+const _getInitialData = () => JSON.parse(JSON.stringify(initialData));
+
+const loadAdminData = () => {
+    const saved = localStorage.getItem('siteData');
+    if (!saved) return _getInitialData();
+    try {
+        const parsed = JSON.parse(saved);
+        // Ensure structure consistency
+        if (!parsed.hero) parsed.hero = _getInitialData().hero;
+        if (!parsed.menu) parsed.menu = _getInitialData().menu;
+        if (!parsed.gallery) parsed.gallery = _getInitialData().gallery;
+        if (!parsed.contact) parsed.contact = _getInitialData().contact;
+        return parsed;
+    } catch (e) {
+        return _getInitialData();
+    }
+};
+
+let appData = loadAdminData();
 
 // Helper: Convert File to Base64 with resizing
 const processImageFile = (file) => {
@@ -205,7 +222,7 @@ window.addMenuItem = () => {
         name: "Món Mới",
         description: "Mô tả món ăn...",
         price: "Liên hệ",
-        image: "assets/img1.png",
+        image: "/assets/img1.png",
         tag: "",
         tagColor: "primary",
         category: "bánh ngọt"
