@@ -14,7 +14,7 @@ const processImageFile = (file) => {
             img.onload = () => {
                 try {
                     const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 800; // Resize to max width 800px to save space
+                    const MAX_WIDTH = 1600; // Increased to 1600px for better quality on large screens
 
                     if (!img.width || !img.height) return reject(new Error('Invalid image dimensions'));
 
@@ -25,7 +25,7 @@ const processImageFile = (file) => {
 
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    resolve(canvas.toDataURL('image/jpeg', 0.7)); // Compress to 70% quality
+                    resolve(canvas.toDataURL('image/jpeg', 0.85)); // Increased to 85% quality to fix blurriness
                 } catch (err) {
                     reject(err);
                 }
@@ -82,10 +82,51 @@ tabs.forEach(tab => {
 
 // data management
 const initAdmin = () => {
+    renderHeroEditor();
     renderMenuEditor();
     renderGalleryEditor();
     renderAboutEditor();
     renderContactEditor();
+};
+
+/* Hero Editor */
+const renderHeroEditor = () => {
+    if (!appData.hero) appData.hero = initialData.hero;
+    if (!appData.hero.backgroundImages) appData.hero.backgroundImages = initialData.hero.backgroundImages;
+
+    const images = appData.hero.backgroundImages;
+
+    // Preview IDs
+    const p1 = document.getElementById('hero-preview-1');
+    const p2 = document.getElementById('hero-preview-2');
+    // URL Input IDs
+    const u1 = document.getElementById('hero-url-1');
+    const u2 = document.getElementById('hero-url-2');
+
+    if (p1 && images[0]) p1.src = images[0].src;
+    if (p2 && images[1]) p2.src = images[1].src;
+    if (u1 && images[0]) u1.value = images[0].src;
+    if (u2 && images[1]) u2.value = images[1].src;
+};
+
+window.updateHeroImage = (index, value) => {
+    if (!appData.hero.backgroundImages[index]) {
+        appData.hero.backgroundImages[index] = { src: value, label: "" };
+    } else {
+        appData.hero.backgroundImages[index].src = value;
+    }
+    renderHeroEditor();
+};
+
+window.uploadHeroImage = async (index, input) => {
+    if (input.files && input.files[0]) {
+        try {
+            const base64 = await processImageFile(input.files[0]);
+            window.updateHeroImage(index, base64);
+        } catch (e) {
+            alert("Lỗi upload ảnh: " + e.message);
+        }
+    }
 };
 
 /* Menu Editor */

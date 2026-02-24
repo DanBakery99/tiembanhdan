@@ -28,7 +28,7 @@
             }
         }
     </script>
-  <script type="module" crossorigin src="/assets/admin-BcLv-81M.js"></script>
+  <script type="module" crossorigin src="/assets/admin-GIfj3OO9.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/data-oOYYI1OB.js">
 </head>
 
@@ -86,6 +86,9 @@
                 <nav class="space-y-1">
                     <button
                         class="tab-btn w-full text-left px-4 py-2 rounded-lg font-medium transition-colors bg-primary text-white"
+                        data-tab="hero">Trang Chủ (Hero)</button>
+                    <button
+                        class="tab-btn w-full text-left px-4 py-2 rounded-lg font-medium transition-colors hover:bg-white hover:text-primary text-gray-600"
                         data-tab="menu">Thực Đơn</button>
                     <button
                         class="tab-btn w-full text-left px-4 py-2 rounded-lg font-medium transition-colors hover:bg-white hover:text-primary text-gray-600"
@@ -124,8 +127,69 @@
             <!-- Content Area -->
             <main class="flex-1 bg-white rounded-2xl shadow-sm p-6 min-h-[500px]">
 
+                <!-- Hero Tab -->
+                <div id="tab-hero" class="tab-content block animate-fade-in">
+                    <h2 class="text-2xl font-serif font-bold text-text mb-2">Chỉnh Sửa Trang Chủ (Hero)</h2>
+                    <p class="text-sm text-gray-500 mb-6">Chỉnh sửa 2 hình ảnh lớn ở phần đầu trang chủ.</p>
+
+                    <div id="hero-editor-container" class="space-y-8">
+                        <!-- Hero 1 -->
+                        <div
+                            class="p-6 bg-orange-50 rounded-2xl border border-orange-100 flex flex-col md:flex-row gap-6">
+                            <div
+                                class="w-full md:w-48 h-64 bg-gray-200 rounded-xl overflow-hidden shadow-inner flex-shrink-0 relative group">
+                                <img id="hero-preview-1" src="" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/40 hidden group-hover:flex items-center justify-center cursor-pointer"
+                                    onclick="document.getElementById('hero-file-1').click()">
+                                    <span class="text-white text-sm font-bold">Đổi Ảnh</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 space-y-4">
+                                <h3 class="font-bold text-lg text-primary">Hình Ảnh Lớn (Bên Phải)</h3>
+                                <p class="text-xs text-gray-500">Đây là hình ảnh chính, hiển thị xoay nhẹ và đè lên hình
+                                    ảnh còn lại. Khuyên dùng ảnh dọc (4:5).</p>
+                                <input type="text" id="hero-url-1" class="w-full p-2 border rounded-lg text-sm bg-white"
+                                    placeholder="URL hình ảnh 1" onchange="updateHeroImage(0, this.value)">
+                                <div class="flex items-center gap-2">
+                                    <input type="file" id="hero-file-1" class="hidden" accept="image/*"
+                                        onchange="uploadHeroImage(0, this)">
+                                    <button onclick="document.getElementById('hero-file-1').click()"
+                                        class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-secondary">Tải
+                                        Ảnh Lên</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hero 2 -->
+                        <div
+                            class="p-6 bg-orange-50 rounded-2xl border border-orange-100 flex flex-col md:flex-row gap-6">
+                            <div
+                                class="w-full md:w-48 h-48 bg-gray-200 rounded-xl overflow-hidden shadow-inner flex-shrink-0 relative group">
+                                <img id="hero-preview-2" src="" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/40 hidden group-hover:flex items-center justify-center cursor-pointer"
+                                    onclick="document.getElementById('hero-file-2').click()">
+                                    <span class="text-white text-sm font-bold">Đổi Ảnh</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 space-y-4">
+                                <h3 class="font-bold text-lg text-primary">Hình Ảnh Nhỏ (Bên Trái)</h3>
+                                <p class="text-xs text-gray-500">Hình ảnh phụ nằm phía dưới. Khuyên dùng ảnh vuông.</p>
+                                <input type="text" id="hero-url-2" class="w-full p-2 border rounded-lg text-sm bg-white"
+                                    placeholder="URL hình ảnh 2" onchange="updateHeroImage(1, this.value)">
+                                <div class="flex items-center gap-2">
+                                    <input type="file" id="hero-file-2" class="hidden" accept="image/*"
+                                        onchange="uploadHeroImage(1, this)">
+                                    <button onclick="document.getElementById('hero-file-2').click()"
+                                        class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-secondary">Tải
+                                        Ảnh Lên</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Menu Tab -->
-                <div id="tab-menu" class="tab-content block animate-fade-in">
+                <div id="tab-menu" class="tab-content hidden animate-fade-in">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-2xl font-serif font-bold text-text">Quản Lý Thực Đơn</h2>
                         <button onclick="addMenuItem()"

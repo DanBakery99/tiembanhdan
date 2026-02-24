@@ -21,6 +21,7 @@ const loadData = () => {
         if (!parsed.contact.zaloUrl) parsed.contact.zaloUrl = initialData.contact.zaloUrl;
         if (!parsed.contact.facebookUrl) parsed.contact.facebookUrl = initialData.contact.facebookUrl;
         if (!parsed.contact.instagramUrl) parsed.contact.instagramUrl = initialData.contact.instagramUrl;
+        if (!parsed.hero) parsed.hero = initialData.hero;
         return parsed;
     } catch (e) {
         localStorage.removeItem('siteData');
@@ -74,6 +75,20 @@ const renderHeroStats = () => {
             <span class="text-sm text-text/60">Google${reviewCount ? ` (${reviewCount})` : ''}</span>
         </div>` : ''}
     `;
+};
+
+// ─── Hero Images ──────────────────────────────────────────────────────────────
+const renderHeroImages = () => {
+    const img1 = document.getElementById('hero-img-1');
+    const img2 = document.getElementById('hero-img-2');
+    const imgMob = document.getElementById('hero-img-mobile');
+
+    if (appData.hero && appData.hero.backgroundImages) {
+        const images = appData.hero.backgroundImages;
+        if (img1 && images[0]) img1.src = images[0].src;
+        if (img2 && images[1]) img2.src = images[1].src;
+        if (imgMob && images[0]) imgMob.src = images[0].src;
+    }
 };
 
 // ─── Hero CTAs ─────────────────────────────────────────────────────────────────
@@ -397,6 +412,7 @@ const renderContact = () => {
 
 // ─── Initialize ───────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+    renderHeroImages();
     renderHeroStats();
     renderHeroCTAs();
     renderCategoryFilters();
