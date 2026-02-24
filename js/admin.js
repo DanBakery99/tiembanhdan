@@ -1,8 +1,7 @@
 import { initialData } from './data.js';
 
-let appData = localStorage.getItem('siteData')
-    ? JSON.parse(localStorage.getItem('siteData'))
-    : JSON.parse(JSON.stringify(initialData)); // Deep copy to avoid mutating import
+const _saved = localStorage.getItem('siteData');
+let appData = _saved ? JSON.parse(_saved) : JSON.parse(JSON.stringify(initialData)); // Deep copy to avoid mutating import
 
 // Helper: Convert File to Base64 with resizing
 const processImageFile = (file) => {
@@ -13,15 +12,23 @@ const processImageFile = (file) => {
             const img = new Image();
             img.src = event.target.result;
             img.onload = () => {
-                const canvas = document.createElement('canvas');
-                const MAX_WIDTH = 800; // Resize to max width 800px to save space
-                const scaleSize = MAX_WIDTH / img.width;
-                canvas.width = MAX_WIDTH;
-                canvas.height = img.height * scaleSize;
+                try {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 800; // Resize to max width 800px to save space
 
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                resolve(canvas.toDataURL('image/jpeg', 0.7)); // Compress to 70% quality
+                    if (!img.width || !img.height) return reject(new Error('Invalid image dimensions'));
+
+                    // Only scale down; avoid upscaling small images
+                    const scaleSize = img.width > MAX_WIDTH ? MAX_WIDTH / img.width : 1;
+                    canvas.width = Math.round(img.width * scaleSize);
+                    canvas.height = Math.round(img.height * scaleSize);
+
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    resolve(canvas.toDataURL('image/jpeg', 0.7)); // Compress to 70% quality
+                } catch (err) {
+                    reject(err);
+                }
             };
             img.onerror = (err) => reject(err);
         };
