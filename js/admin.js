@@ -1,5 +1,16 @@
 import { initialData } from './data.js';
 
+// HTML attribute escape helper to prevent broken HTML from special characters
+const escAttr = (str) => {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+};
+
 const _getInitialData = () => JSON.parse(JSON.stringify(initialData));
 
 const loadAdminData = () => {
@@ -61,14 +72,36 @@ const dashboard = document.getElementById('admin-dashboard');
 const loginForm = document.getElementById('login-form');
 const loginError = document.getElementById('login-error');
 
+let failedAttempts = 0;
+let lockUntil = 0;
+const MAX_ATTEMPTS = 5;
+const LOCK_MS = 5 * 60 * 1000; // 5 minutes
+
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    if (Date.now() < lockUntil) {
+        const secondsLeft = Math.ceil((lockUntil - Date.now()) / 1000);
+        loginError.textContent = `Tạm khóa ${secondsLeft}s vì nhập sai quá nhiều.`;
+        loginError.classList.remove('hidden');
+        return;
+    }
+
     const password = document.getElementById('password').value;
     if (password === 'Toobakery0810') {
+        failedAttempts = 0;
+        lockUntil = 0;
         loginModal.classList.add('hidden');
         dashboard.classList.remove('hidden');
         initAdmin();
     } else {
+        failedAttempts += 1;
+        if (failedAttempts >= MAX_ATTEMPTS) {
+            lockUntil = Date.now() + LOCK_MS;
+            loginError.textContent = 'Sai mật khẩu quá 5 lần. Vui lòng thử lại sau ít phút.';
+        } else {
+            loginError.textContent = 'Mật khẩu không chính xác!';
+        }
         loginError.classList.remove('hidden');
     }
 });
@@ -77,27 +110,40 @@ document.getElementById('logout-btn').addEventListener('click', () => {
     location.reload();
 });
 
-// Tab Switching
+// Tab Switching — supports both desktop sidebar tabs and mobile horizontal tabs
 const tabs = document.querySelectorAll('.tab-btn');
 const contents = document.querySelectorAll('.tab-content');
 
-tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        // Remove active class from all tabs
-        tabs.forEach(t => {
-            t.classList.remove('bg-primary', 'text-white', 'shadow-lg');
-            t.classList.add('text-secondary', 'hover:bg-white', 'hover:shadow-md');
-        });
-        // Add active class to clicked tab
-        tab.classList.remove('text-secondary', 'hover:bg-white', 'hover:shadow-md');
-        tab.classList.add('bg-primary', 'text-white', 'shadow-lg');
-
-        // Hide all contents with a fade
-        contents.forEach(c => c.classList.add('hidden'));
-        // Show target content
-        const target = document.getElementById(`tab-${tab.dataset.tab}`);
-        if (target) target.classList.remove('hidden');
+const activateTab = (tabName) => {
+    // Update ALL tab buttons (desktop + mobile) to reflect active state
+    tabs.forEach(t => {
+        const isDesktop = !!t.closest('aside'); // inside desktop sidebar
+        if (t.dataset.tab === tabName) {
+            // Active state — light bg, dark text (never white text)
+            t.classList.remove('text-secondary', 'text-gray-800', 'text-gray-500',
+                'hover:bg-white', 'hover:shadow-md',
+                'bg-surface', 'text-gray-900', 'border', 'border-primary/10',
+                'text-gray-400', 'border-primary/5');
+            t.classList.add('bg-amber-100', 'text-gray-900', 'border-2', 'border-primary', 'shadow-sm');
+        } else {
+            // Inactive state — dark text on neutral bg
+            t.classList.remove('bg-amber-100', 'text-gray-900', 'border-2', 'border-primary', 'shadow-sm');
+            if (isDesktop) {
+                t.classList.add('text-gray-800', 'hover:bg-white', 'hover:shadow-md');
+            } else {
+                t.classList.add('bg-surface', 'text-gray-900', 'border', 'border-primary/10');
+            }
+        }
     });
+
+    // Show/hide content panels
+    contents.forEach(c => c.classList.add('hidden'));
+    const target = document.getElementById(`tab-${tabName}`);
+    if (target) target.classList.remove('hidden');
+};
+
+tabs.forEach(tab => {
+    tab.addEventListener('click', () => activateTab(tab.dataset.tab));
 });
 
 // data management
@@ -158,7 +204,7 @@ const renderMenuEditor = () => {
         el.className = 'bg-surface p-6 rounded-[2rem] flex flex-col md:flex-row gap-6 items-start border border-primary/5 shadow-sm hover:shadow-md transition-all group';
         el.innerHTML = `
             <div class="w-full md:w-40 h-40 flex-shrink-0 bg-white rounded-2xl overflow-hidden relative border border-primary/5">
-                <img src="${item.image}" class="w-full h-full object-cover">
+                <img src="${escAttr(item.image)}" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer" onclick="document.getElementById('menu-file-${index}').click()">
                     <span class="text-white text-[10px] font-bold uppercase tracking-widest">Đổi Ảnh</span>
                 </div>
@@ -166,27 +212,27 @@ const renderMenuEditor = () => {
             <div class="flex-1 space-y-4 w-full">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-primary/30 uppercase tracking-tighter ml-1">Tên Món</label>
-                        <input type="text" value="${item.name}" placeholder="Tên món" class="w-full px-4 py-2 bg-white border border-primary/5 rounded-xl text-sm font-bold focus:ring-2 focus:ring-accent outline-none" onchange="updateMenuItem(${index}, 'name', this.value)">
+                        <label class="text-[10px] font-bold text-primary/70 uppercase tracking-tighter ml-1">Tên Món</label>
+                        <input type="text" value="${escAttr(item.name)}" placeholder="Tên món" class="w-full px-4 py-2 bg-white border border-primary/5 rounded-xl text-sm font-bold text-gray-900 focus:ring-2 focus:ring-accent outline-none" onchange="updateMenuItem(${index}, 'name', this.value)">
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-primary/30 uppercase tracking-tighter ml-1">Giá Tiền</label>
-                        <input type="text" value="${item.price}" placeholder="Giá" class="w-full px-4 py-2 bg-white border border-primary/5 rounded-xl text-sm focus:ring-2 focus:ring-accent outline-none" onchange="updateMenuItem(${index}, 'price', this.value)">
+                        <label class="text-[10px] font-bold text-primary/70 uppercase tracking-tighter ml-1">Giá Tiền</label>
+                        <input type="text" value="${escAttr(item.price)}" placeholder="Giá" class="w-full px-4 py-2 bg-white border border-primary/5 rounded-xl text-sm text-gray-900 focus:ring-2 focus:ring-accent outline-none" onchange="updateMenuItem(${index}, 'price', this.value)">
                     </div>
                 </div>
                 <div class="space-y-1">
-                    <label class="text-[9px] font-bold text-primary/30 uppercase tracking-tighter ml-1">Mô Tả</label>
-                    <input type="text" value="${item.description}" placeholder="Mô tả" class="w-full px-4 py-2 bg-white border border-primary/5 rounded-xl text-sm focus:ring-2 focus:ring-accent outline-none" onchange="updateMenuItem(${index}, 'description', this.value)">
+                    <label class="text-[10px] font-bold text-primary/70 uppercase tracking-tighter ml-1">Mô Tả</label>
+                    <input type="text" value="${escAttr(item.description)}" placeholder="Mô tả" class="w-full px-4 py-2 bg-white border border-primary/5 rounded-xl text-sm text-gray-900 focus:ring-2 focus:ring-accent outline-none" onchange="updateMenuItem(${index}, 'description', this.value)">
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                      <div class="md:col-span-2 space-y-1">
-                        <label class="text-[9px] font-bold text-primary/30 uppercase tracking-tighter ml-1">URL Hình Ảnh</label>
-                        <input type="text" value="${item.image}" placeholder="URL Hình ảnh" class="w-full px-4 py-2 bg-white border border-primary/5 rounded-xl text-[10px] text-gray-500 focus:ring-2 focus:ring-accent outline-none" onchange="updateMenuItem(${index}, 'image', this.value)">
+                        <label class="text-[10px] font-bold text-primary/70 uppercase tracking-tighter ml-1">URL Hình Ảnh</label>
+                        <input type="text" value="${escAttr(item.image)}" placeholder="URL Hình ảnh" class="w-full px-4 py-2 bg-white border border-primary/5 rounded-xl text-[10px] text-gray-500 focus:ring-2 focus:ring-accent outline-none" onchange="updateMenuItem(${index}, 'image', this.value)">
                         <input type="file" id="menu-file-${index}" class="hidden" accept="image/*" onchange="uploadMenuImage(${index}, this)">
                      </div>
                      <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-primary/30 uppercase tracking-tighter ml-1">Tag (vd: Best Seller)</label>
-                        <input type="text" value="${item.tag || ''}" placeholder="Tag" class="w-full px-4 py-2 bg-white border border-primary/5 rounded-xl text-sm focus:ring-2 focus:ring-accent outline-none" onchange="updateMenuItem(${index}, 'tag', this.value)">
+                        <label class="text-[10px] font-bold text-primary/70 uppercase tracking-tighter ml-1">Tag (vd: Best Seller)</label>
+                        <input type="text" value="${escAttr(item.tag || '')}" placeholder="Tag" class="w-full px-4 py-2 bg-white border border-primary/5 rounded-xl text-sm focus:ring-2 focus:ring-accent outline-none" onchange="updateMenuItem(${index}, 'tag', this.value)">
                      </div>
                 </div>
                 <div class="flex items-center justify-between pt-2">
@@ -264,14 +310,14 @@ const renderGalleryEditor = () => {
         const el = document.createElement('div');
         el.className = 'relative group aspect-square rounded-2xl overflow-hidden border border-primary/5 shadow-sm hover:shadow-xl transition-all';
         el.innerHTML = `
-            <img src="${img}" class="w-full h-full object-cover">
+            <img src="${escAttr(img)}" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3">
                 <div class="flex justify-end">
                     <button onclick="deleteGalleryItem(${index})" class="bg-rose-500 text-white p-2 rounded-xl shadow-lg hover:scale-110 transition-transform">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
-                <input type="text" value="${img}" class="w-full p-2 text-[9px] bg-white/90 rounded-lg outline-none backdrop-blur-sm" onchange="updateGalleryItem(${index}, this.value)">
+                <input type="text" value="${escAttr(img)}" class="w-full p-2 text-[9px] bg-white rounded-lg outline-none" onchange="updateGalleryItem(${index}, this.value)">
             </div>
         `;
         list.appendChild(el);
@@ -388,20 +434,20 @@ const renderContactEditor = () => {
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-primary/30 uppercase tracking-tighter ml-1">Tên Khách</label>
-                        <input type="text" value="${rev.name}" placeholder="Tên khách" class="w-full px-4 py-2 bg-surface border border-primary/5 rounded-xl text-sm font-bold focus:ring-2 focus:ring-accent outline-none" onchange="appData.contact.reviews[${i}].name = this.value">
+                        <label class="text-[10px] font-bold text-primary/70 uppercase tracking-tighter ml-1">Tên Khách</label>
+                        <input type="text" value="${rev.name}" placeholder="Tên khách" class="w-full px-4 py-2 bg-surface border border-primary/5 rounded-xl text-sm font-bold text-gray-900 focus:ring-2 focus:ring-accent outline-none" onchange="appData.contact.reviews[${i}].name = this.value">
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-primary/30 uppercase tracking-tighter ml-1">Số Sao</label>
+                        <label class="text-[10px] font-bold text-primary/70 uppercase tracking-tighter ml-1">Số Sao</label>
                         <input type="number" min="1" max="5" value="${rev.rating}" class="w-full px-4 py-2 bg-surface border border-primary/5 rounded-xl text-sm focus:ring-2 focus:ring-accent outline-none" onchange="appData.contact.reviews[${i}].rating = parseInt(this.value); renderContactEditor();">
                     </div>
                 </div>
                 <div class="space-y-1">
-                    <label class="text-[9px] font-bold text-primary/30 uppercase tracking-tighter ml-1">Thời Gian (vd: 2 tuần trước)</label>
+                    <label class="text-[10px] font-bold text-primary/70 uppercase tracking-tighter ml-1">Thời Gian (vd: 2 tuần trước)</label>
                     <input type="text" value="${rev.date}" class="w-full px-4 py-2 bg-surface border border-primary/5 rounded-xl text-xs focus:ring-2 focus:ring-accent outline-none" onchange="appData.contact.reviews[${i}].date = this.value">
                 </div>
                 <div class="space-y-1">
-                    <label class="text-[9px] font-bold text-primary/30 uppercase tracking-tighter ml-1">Nội Dung Review</label>
+                    <label class="text-[10px] font-bold text-primary/70 uppercase tracking-tighter ml-1">Nội Dung Review</label>
                     <textarea placeholder="Nội dung review..." class="w-full px-4 py-2 bg-surface border border-primary/5 rounded-xl text-xs h-24 focus:ring-2 focus:ring-accent outline-none" onchange="appData.contact.reviews[${i}].text = this.value">${rev.text}</textarea>
                 </div>
             </div>
@@ -410,11 +456,11 @@ const renderContactEditor = () => {
 };
 
 
-// Global Actions
-document.getElementById('save-btn').addEventListener('click', () => {
+// Global Actions — shared save handler
+const doSave = () => {
     try {
         localStorage.setItem('siteData', JSON.stringify(appData));
-        alert('Đã lưu thay đổi vào trình duyệt!');
+        alert('Đã lưu thay đổi vào trình duyệt! Refresh trang chủ để xem.');
     } catch (e) {
         if (e.name === 'QuotaExceededError') {
             alert('Lỗi: Dung lượng lưu trữ đã đầy! Hãy thử xóa bớt ảnh hoặc dùng ảnh nhỏ hơn.');
@@ -422,24 +468,36 @@ document.getElementById('save-btn').addEventListener('click', () => {
             alert('Lỗi khi lưu: ' + e.message);
         }
     }
-});
+};
 
-document.getElementById('reset-btn').addEventListener('click', () => {
-    if (confirm('Bạn có chắc muốn reset về mặc định không? Mọi thay đổi chưa xuất file sẽ mất.')) {
+const doReset = () => {
+    if (confirm('Reset dữ liệu xem trước về mặc định? Mọi thay đổi chưa xuất file sẽ mất.')) {
         localStorage.removeItem('siteData');
         location.reload();
     }
-});
+};
 
-document.getElementById('export-btn').addEventListener('click', () => {
+const doExport = () => {
     const dataStr = "export const initialData = " + JSON.stringify(appData, null, 4) + ";";
     const blob = new Blob([dataStr], { type: "text/javascript;charset=utf-8" });
     const url = URL.createObjectURL(blob);
-
     const a = document.createElement('a');
     a.href = url;
     a.download = "data.js";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-});
+};
+
+// Desktop sidebar buttons
+document.getElementById('save-btn').addEventListener('click', doSave);
+document.getElementById('reset-btn').addEventListener('click', doReset);
+document.getElementById('export-btn').addEventListener('click', doExport);
+
+// Mobile bottom bar buttons
+const mSave = document.getElementById('save-btn-mobile');
+const mExport = document.getElementById('export-btn-mobile');
+const mReset = document.getElementById('reset-btn-mobile');
+if (mSave) mSave.addEventListener('click', doSave);
+if (mExport) mExport.addEventListener('click', doExport);
+if (mReset) mReset.addEventListener('click', doReset);

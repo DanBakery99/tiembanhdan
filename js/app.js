@@ -1,5 +1,34 @@
 import { initialData } from './data.js';
 
+// ─── Tiny sanitizer helpers to block trivial XSS vectors on user-provided data ──
+const sanitizeText = (value) => String(value ?? '').replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+
+const sanitizeUrl = (url) => {
+    if (!url) return '#';
+    const trimmed = url.trim();
+    // allow site-relative assets
+    if (trimmed.startsWith('/')) return trimmed;
+    // allow base64 images stored from the admin
+    if (trimmed.startsWith('data:image/')) return trimmed;
+    try {
+        const parsed = new URL(trimmed, window.location.origin);
+        const allowed = ['http:', 'https:', 'tel:', 'mailto:'];
+        return allowed.includes(parsed.protocol) ? parsed.href : '#';
+    } catch (e) {
+        console.warn('Blocked unsafe URL:', url);
+        return '#';
+    }
+};
+
+const isSafeMapEmbed = (url) => {
+    try {
+        const parsed = new URL(url, window.location.origin);
+        return parsed.protocol === 'https:' && (parsed.hostname.includes('google.com') || parsed.hostname.includes('maps.app.goo.gl'));
+    } catch {
+        return false;
+    }
+};
+
 // Load data from localStorage or use initial data
 // Auto-reset if saved data is outdated (old categories, missing fields)
 const loadData = () => {
@@ -101,9 +130,9 @@ const renderHeroImages = () => {
 
     if (appData.hero && appData.hero.backgroundImages) {
         const images = appData.hero.backgroundImages;
-        if (img1 && images[0]) img1.src = images[0].src;
-        if (img2 && images[1]) img2.src = images[1].src;
-        if (imgMob && images[0]) imgMob.src = images[0].src;
+        if (img1 && images[0]) img1.src = sanitizeUrl(images[0].src);
+        if (img2 && images[1]) img2.src = sanitizeUrl(images[1].src);
+        if (imgMob && images[0]) imgMob.src = sanitizeUrl(images[0].src);
     }
 };
 
@@ -120,11 +149,11 @@ const renderHeroCTAs = () => {
             class="px-8 py-4 bg-primary text-white rounded-full font-semibold shadow-lg hover:shadow-vintage hover:bg-secondary transition-all transform hover:-translate-y-1 text-center">
             Xem Thực Đơn
         </a>
-        <a href="${orderHref}" target="_blank" rel="noopener"
+        <a href="${sanitizeUrl(orderHref)}" target="_blank" rel="noopener"
             class="px-8 py-4 bg-accent text-white rounded-full font-semibold shadow-lg hover:bg-accent/80 transition-all transform hover:-translate-y-1 text-center flex items-center justify-center gap-2">
             ${orderLabel}
         </a>
-        <a href="${callHref}"
+        <a href="${sanitizeUrl(callHref)}"
             class="hidden sm:flex px-6 py-4 bg-white border-2 border-primary text-primary rounded-full font-semibold hover:bg-primary hover:text-white transition-all transform hover:-translate-y-1 items-center gap-2 text-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -178,50 +207,58 @@ const renderMenu = (filterCategory = null) => {
 
     const orderHref = getOrderHref();
 
-    menuGrid.innerHTML = filteredItems.map((item, index) => `
-        <div class="group bg-white rounded-[2rem] p-6 shadow-vintage hover:shadow-2xl transition-all duration-500 border border-primary/5 flex flex-col h-full animate-fade-in-up relative" style="animation-delay: ${index * 100}ms">
-            <div class="relative overflow-hidden rounded-[1.5rem] aspect-[4/5] mb-6">
-                <img src="${item.image}" alt="${item.name}" loading="lazy"
-                     class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000">
+    menuGrid.innerHTML = filteredItems.map((item, index) => {
+        const safeName = sanitizeText(item.name);
+        const safeDesc = sanitizeText(item.description);
+        const safePrice = sanitizeText(item.price);
+        const safeTag = sanitizeText(item.tag);
+        const safeImage = sanitizeUrl(item.image);
+
+        return `
+            <div class="group bg-white rounded-[2rem] p-6 shadow-vintage hover:shadow-2xl transition-all duration-500 border border-primary/5 flex flex-col h-full animate-fade-in-up relative" style="animation-delay: ${index * 100}ms">
+                <div class="relative overflow-hidden rounded-[1.5rem] aspect-[4/5] mb-6">
+                    <img src="${safeImage}" alt="${safeName}" loading="lazy"
+                         class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000">
+                    
+                    ${item.tag ? `
+                    <div class="absolute top-4 left-4 bg-accent text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow-badge z-10 uppercase tracking-[0.1em] border border-white/20">
+                        ${safeTag}
+                    </div>` : ''}
+                    
+                    <!-- Quick Order Overlay -->
+                    <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-[2px]">
+                        <a href="${sanitizeUrl(orderHref)}" target="_blank" rel="noopener"
+                           class="bg-white text-primary px-8 py-3 rounded-xl font-bold text-sm transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 shadow-xl hover:bg-accent hover:text-white cursor-pointer">
+                            Đặt Món Ngay
+                        </a>
+                    </div>
+                </div>
                 
-                ${item.tag ? `
-                <div class="absolute top-4 left-4 bg-accent text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow-badge z-10 uppercase tracking-[0.1em] border border-white/20">
-                    ${item.tag}
-                </div>` : ''}
-                
-                <!-- Quick Order Overlay -->
-                <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-[2px]">
-                    <a href="${orderHref}" target="_blank" rel="noopener"
-                       class="bg-white text-primary px-8 py-3 rounded-xl font-bold text-sm transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 shadow-xl hover:bg-accent hover:text-white cursor-pointer">
-                        Đặt Món Ngay
+                <div class="flex-grow flex flex-col items-center text-center">
+                    <h3 class="font-display text-2xl font-bold text-text mb-3 group-hover:text-accent transition-colors duration-300 italic">${safeName}</h3>
+                    <p class="text-text/60 text-sm mb-4 leading-relaxed font-light">${safeDesc}</p>
+                    
+                    <div class="mt-auto w-full pt-4 border-t border-primary/5 flex items-center justify-between">
+                        <span class="text-accent font-serif italic text-lg opacity-40">Handmade</span>
+                        <span class="text-primary font-bold text-xl drop-shadow-sm">${safePrice}</span>
+                    </div>
+
+                    <!-- CTA Đặt Món (always visible below price) -->
+                    <a href="${sanitizeUrl(orderHref)}" target="_blank" rel="noopener"
+                       class="mt-4 w-full block text-center py-3 bg-primary/5 hover:bg-accent hover:text-white text-primary font-semibold rounded-xl border border-primary/10 hover:border-transparent transition-all duration-300 text-sm cursor-pointer">
+                        Đặt Món
                     </a>
                 </div>
             </div>
-            
-            <div class="flex-grow flex flex-col items-center text-center">
-                <h3 class="font-display text-2xl font-bold text-text mb-3 group-hover:text-accent transition-colors duration-300 italic">${item.name}</h3>
-                <p class="text-text/60 text-sm mb-4 leading-relaxed font-light">${item.description}</p>
-                
-                <div class="mt-auto w-full pt-4 border-t border-primary/5 flex items-center justify-between">
-                    <span class="text-accent font-serif italic text-lg opacity-40">Handmade</span>
-                    <span class="text-primary font-bold text-xl drop-shadow-sm">${item.price}</span>
-                </div>
-
-                <!-- CTA Đặt Món (always visible below price) -->
-                <a href="${orderHref}" target="_blank" rel="noopener"
-                   class="mt-4 w-full block text-center py-3 bg-primary/5 hover:bg-accent hover:text-white text-primary font-semibold rounded-xl border border-primary/10 hover:border-transparent transition-all duration-300 text-sm cursor-pointer">
-                    Đặt Món
-                </a>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 };
 
 // ─── Render "Đặt Món Ngay" button in menu section footer ──────────────────────
 const renderMenuCTA = () => {
     const ctaEl = document.getElementById('menu-section-cta');
     if (!ctaEl) return;
-    const orderHref = getOrderHref();
+    const orderHref = sanitizeUrl(getOrderHref());
     const orderLabel = getOrderLabel();
     ctaEl.href = orderHref;
     ctaEl.setAttribute('target', '_blank');
@@ -271,26 +308,41 @@ const renderReviews = () => {
     }
 
     if (reviewsContainer && appData.contact.reviews && appData.contact.reviews.length > 0) {
-        reviewsContainer.innerHTML = appData.contact.reviews.slice(0, 3).map(rev => `
-            <div class="bg-surface/50 p-6 rounded-2xl border border-primary/5 hover:border-accent/20 transition-colors">
-                <div class="flex justify-between items-start mb-3">
-                    <div>
-                        <h4 class="font-bold text-text">${rev.name}</h4>
-                        <div class="flex text-yellow-400 text-sm mt-0.5">
-                            ${'★'.repeat(rev.rating)}${'<span class="text-gray-300">★</span>'.repeat(5 - rev.rating)}
+        reviewsContainer.innerHTML = appData.contact.reviews.slice(0, 3).map(rev => {
+            const safeName = sanitizeText(rev.name);
+            const safeText = sanitizeText(rev.text);
+            const safeDate = sanitizeText(rev.date);
+            const starCount = Math.max(1, Math.min(5, parseInt(rev.rating, 10) || 0));
+            return `
+                <div class="bg-surface/50 p-6 rounded-2xl border border-primary/5 hover:border-accent/20 transition-colors">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h4 class="font-bold text-text">${safeName}</h4>
+                            <div class="flex text-yellow-400 text-sm mt-0.5">
+                                ${'★'.repeat(starCount)}${'<span class="text-gray-300">★</span>'.repeat(5 - starCount)}
+                            </div>
                         </div>
+                        <span class="text-[10px] text-text/40 uppercase tracking-wider">${safeDate}</span>
                     </div>
-                    <span class="text-[10px] text-text/40 uppercase tracking-wider">${rev.date}</span>
+                    <p class="text-text/70 text-sm italic font-light">"${safeText}"</p>
                 </div>
-                <p class="text-text/70 text-sm italic font-light">"${rev.text}"</p>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     } else if (reviewsContainer) {
         reviewsContainer.innerHTML = `<p class="text-sm text-text/40 italic py-4">Chưa có review — Thêm trong Admin &gt; Liên Hệ &amp; Google Reviews</p>`;
     }
 
-    if (mapIframe && appData.contact.mapEmbed) {
-        mapIframe.innerHTML = `<iframe src="${appData.contact.mapEmbed}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Bản đồ Tiệm Bánh DAN"></iframe>`;
+    if (mapIframe && appData.contact.mapEmbed && isSafeMapEmbed(appData.contact.mapEmbed)) {
+        const iframe = document.createElement('iframe');
+        iframe.src = sanitizeUrl(appData.contact.mapEmbed);
+        iframe.width = '100%';
+        iframe.height = '100%';
+        iframe.style.border = '0';
+        iframe.loading = 'lazy';
+        iframe.referrerPolicy = 'no-referrer-when-downgrade';
+        iframe.title = 'Bản đồ Tiệm Bánh DAN';
+        mapIframe.innerHTML = '';
+        mapIframe.appendChild(iframe);
     } else if (mapIframe) {
         mapIframe.innerHTML = `
             <div class="w-full h-full bg-surface flex flex-col items-center justify-center gap-3 text-text/40">
@@ -306,15 +358,17 @@ const renderReviews = () => {
     }
 
     if (mapsLink) {
-        mapsLink.href = mapsUrl;
-        if (mapsUrl === '#') mapsLink.style.opacity = '0.4';
+        const safeMaps = sanitizeUrl(mapsUrl);
+        mapsLink.href = safeMaps;
+        if (safeMaps === '#') mapsLink.style.opacity = '0.4';
     }
     if (getDirectionsBtn) {
-        getDirectionsBtn.href = mapsUrl;
-        if (mapsUrl === '#') getDirectionsBtn.style.opacity = '0.4';
+        const safeMaps = sanitizeUrl(mapsUrl);
+        getDirectionsBtn.href = safeMaps;
+        if (safeMaps === '#') getDirectionsBtn.style.opacity = '0.4';
     }
     if (displayAddress) {
-        displayAddress.textContent = appData.contact.address || 'Chưa có địa chỉ — Nhập trong Admin';
+        displayAddress.textContent = sanitizeText(appData.contact.address) || 'Chưa có địa chỉ — Nhập trong Admin';
     }
 };
 
@@ -341,10 +395,11 @@ const renderGallery = () => {
         galleryGrid.innerHTML = teaserImages.map((img, index) => {
             const rowSpan = index % 3 === 0 ? 'row-span-2' : 'row-span-1';
             const colSpan = index % 4 === 0 ? 'md:col-span-2' : 'md:col-span-1';
+            const safeImg = sanitizeUrl(img);
 
             return `
             <div class="relative group overflow-hidden rounded-3xl ${rowSpan} ${colSpan} shadow-vintage hover:shadow-2xl transition-all duration-700 cursor-pointer">
-                <img src="${img}" 
+                <img src="${safeImg}" 
                      loading="lazy"
                      class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 filter sepia-[0.2] group-hover:sepia-0" 
                      alt="Hình ảnh Tiệm Bánh DAN ${index + 1}">
@@ -370,7 +425,7 @@ const renderContact = () => {
 
     if (contactAddress) {
         if (appData.contact.address) {
-            contactAddress.textContent = appData.contact.address;
+            contactAddress.textContent = sanitizeText(appData.contact.address);
             contactAddress.style.opacity = '1';
         } else {
             contactAddress.textContent = 'Chưa có địa chỉ — Cập nhật trong Admin';
@@ -381,7 +436,7 @@ const renderContact = () => {
     if (contactPhone) {
         if (appData.contact.phone) {
             const phoneHref = `tel:${appData.contact.phone.replace(/\s/g, '')}`;
-            contactPhone.innerHTML = `<a href="${phoneHref}" class="hover:text-accent transition-colors">${appData.contact.phone}</a>`;
+            contactPhone.innerHTML = `<a href="${sanitizeUrl(phoneHref)}" class="hover:text-accent transition-colors">${sanitizeText(appData.contact.phone)}</a>`;
         } else {
             contactPhone.textContent = 'Chưa có SĐT — Cập nhật trong Admin';
             contactPhone.style.opacity = '0.5';
@@ -399,7 +454,7 @@ const renderContact = () => {
                     <svg class="w-4 h-4 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    ${h}
+                    ${sanitizeText(h)}
                 </li>`
             ).join('');
         } else {
@@ -409,20 +464,20 @@ const renderContact = () => {
 
     // Social links
     if (footerFacebook) {
-        footerFacebook.href = appData.contact.facebookUrl || '#';
+        footerFacebook.href = sanitizeUrl(appData.contact.facebookUrl) || '#';
     }
     if (footerInstagram) {
-        footerInstagram.href = appData.contact.instagramUrl || '#';
+        footerInstagram.href = sanitizeUrl(appData.contact.instagramUrl) || '#';
     }
     if (footerZalo) {
-        footerZalo.href = appData.contact.zaloUrl || '#';
+        footerZalo.href = sanitizeUrl(appData.contact.zaloUrl) || '#';
     }
     const footerZaloCta = document.getElementById('footer-zalo-cta');
     if (footerZaloCta) {
-        footerZaloCta.href = appData.contact.zaloUrl || '#';
+        footerZaloCta.href = sanitizeUrl(appData.contact.zaloUrl) || '#';
     }
     if (footerMapsLink) {
-        footerMapsLink.href = appData.contact.googleMapsUrl || '#';
+        footerMapsLink.href = sanitizeUrl(appData.contact.googleMapsUrl) || '#';
     }
 };
 

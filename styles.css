@@ -101,3 +101,34 @@
 .hover-zoom-img:hover img {
     transform: scale(1.1);
 }
+
+/* Mobile-first refinements to tighten spacing and avoid overflow */
+@media (max-width: 640px) {
+    header#home h1 {
+        font-size: clamp(2.4rem, 7vw, 3.2rem);
+        line-height: 1.15;
+    }
+
+    header#home p {
+        font-size: 1rem;
+    }
+
+    #hero-cta-container a {
+        width: 100%;
+    }
+
+    #menu-grid .group {
+        padding: 1.25rem;
+        border-radius: 1.25rem;
+    }
+
+    /* Reserve space so sticky CTA bar không che nội dung cuối trang */
+    body {
+        padding-bottom: 88px;
+    }
+
+    nav#navbar {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
