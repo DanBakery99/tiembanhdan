@@ -110,7 +110,7 @@ export const initialData = {
         phone: "090 123 4567",
         zaloUrl: "https://zalo.me/0901234567",
         facebookUrl: "https://facebook.com/tiembanhdan",
-        instagramUrl: "https://instagram.com/tiembanhdan",
+        instagramUrl: "https://www.instagram.com/tiembanhdan/",
         hours: [
             "Thứ 2 - Thứ 6: 07:00 - 22:00",
             "Thứ 7 - Chủ Nhật: 08:00 - 23:00"

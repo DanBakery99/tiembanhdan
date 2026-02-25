@@ -377,11 +377,14 @@ const renderGallery = () => {
     const galleryGrid = document.getElementById('gallery-grid');
     const galleryCtaLink = document.getElementById('gallery-instagram-link');
 
+    const galleryMoreCta = document.getElementById('gallery-more-cta');
+
     if (galleryCtaLink) {
         const instaUrl = appData.contact.instagramUrl;
         if (instaUrl && instaUrl !== '#') {
             galleryCtaLink.href = instaUrl;
             galleryCtaLink.textContent = 'Xem Instagram @tiembanhdan';
+            if (galleryMoreCta) galleryMoreCta.href = instaUrl;
         } else {
             galleryCtaLink.href = '#';
             galleryCtaLink.textContent = 'Xem Thêm Hình Ảnh';
