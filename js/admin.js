@@ -13,23 +13,29 @@ const escAttr = (str) => {
 
 const _getInitialData = () => JSON.parse(JSON.stringify(initialData));
 
-const loadAdminData = () => {
-    const saved = localStorage.getItem('siteData');
-    if (!saved) return _getInitialData();
+// Fetch site data from Netlify Function, fallback to default
+const loadAdminData = async () => {
     try {
-        const parsed = JSON.parse(saved);
-        // Ensure structure consistency
-        if (!parsed.hero) parsed.hero = _getInitialData().hero;
-        if (!parsed.menu) parsed.menu = _getInitialData().menu;
-        if (!parsed.gallery) parsed.gallery = _getInitialData().gallery;
-        if (!parsed.contact) parsed.contact = _getInitialData().contact;
-        return parsed;
-    } catch {
-        return _getInitialData();
+        const res = await fetch('/.netlify/functions/site_data_get');
+        if (res.ok) {
+            const json = await res.json();
+            if (json && json.data && typeof json.data === 'object') {
+                const parsed = json.data;
+                // Ensure structure consistency
+                if (!parsed.hero) parsed.hero = _getInitialData().hero;
+                if (!parsed.menu) parsed.menu = _getInitialData().menu;
+                if (!parsed.gallery) parsed.gallery = _getInitialData().gallery;
+                if (!parsed.contact) parsed.contact = _getInitialData().contact;
+                return parsed;
+            }
+        }
+    } catch (err) {
+        console.warn('Failed to load from server, using default data:', err);
     }
+    return _getInitialData();
 };
 
-let appData = loadAdminData();
+let appData = _getInitialData(); // temporary until async load completes
 
 // Helper: Convert File to Base64 with resizing
 const processImageFile = (file) => {
@@ -64,13 +70,53 @@ const processImageFile = (file) => {
     });
 };
 
-// Login Logic (restored simple flow)
+// ── Netlify Identity integration ──────────────────────────────────────────────
+const netlifyIdentity = window.netlifyIdentity;
+if (netlifyIdentity) {
+    netlifyIdentity.init();
+}
 
-// Login Logic
+// Helper: get a fresh JWT from Netlify Identity
+const getIdentityToken = () => {
+    return new Promise((resolve, reject) => {
+        const user = netlifyIdentity && netlifyIdentity.currentUser();
+        if (!user) return reject(new Error('Not logged in'));
+        user.jwt().then(resolve).catch(reject);
+    });
+};
+
+// Login Logic — using Netlify Identity
 const loginModal = document.getElementById('login-modal');
 const dashboard = document.getElementById('admin-dashboard');
 const loginForm = document.getElementById('login-form');
 const loginError = document.getElementById('login-error');
+
+// On page load: if already logged in via Identity, skip password modal
+const tryAutoLogin = async () => {
+    const user = netlifyIdentity && netlifyIdentity.currentUser();
+    if (user) {
+        // Already logged in
+        loginModal.classList.add('hidden');
+        dashboard.classList.remove('hidden');
+        appData = await loadAdminData();
+        initAdmin();
+    }
+};
+tryAutoLogin();
+
+// Listen for Identity login event
+if (netlifyIdentity) {
+    netlifyIdentity.on('login', async () => {
+        loginModal.classList.add('hidden');
+        dashboard.classList.remove('hidden');
+        appData = await loadAdminData();
+        initAdmin();
+        netlifyIdentity.close();
+    });
+    netlifyIdentity.on('logout', () => {
+        location.reload();
+    });
+}
 
 let failedAttempts = 0;
 let lockUntil = 0;
@@ -91,9 +137,17 @@ loginForm.addEventListener('submit', (e) => {
     if (password === 'Toobakery0810') {
         failedAttempts = 0;
         lockUntil = 0;
-        loginModal.classList.add('hidden');
-        dashboard.classList.remove('hidden');
-        initAdmin();
+        // Open Netlify Identity modal for real login
+        if (netlifyIdentity) {
+            loginError.textContent = '';
+            loginError.classList.add('hidden');
+            netlifyIdentity.open();
+        } else {
+            // Fallback: direct dashboard access (Identity widget not loaded)
+            loginModal.classList.add('hidden');
+            dashboard.classList.remove('hidden');
+            loadAdminData().then(d => { appData = d; initAdmin(); });
+        }
     } else {
         failedAttempts += 1;
         if (failedAttempts >= MAX_ATTEMPTS) {
@@ -107,7 +161,11 @@ loginForm.addEventListener('submit', (e) => {
 });
 
 document.getElementById('logout-btn').addEventListener('click', () => {
-    location.reload();
+    if (netlifyIdentity) {
+        netlifyIdentity.logout();
+    } else {
+        location.reload();
+    }
 });
 
 // Tab Switching — supports both desktop sidebar tabs and mobile horizontal tabs
@@ -456,17 +514,48 @@ const renderContactEditor = () => {
 };
 
 
-// Global Actions — shared save handler
-const doSave = () => {
+// Global Actions — shared save handler (saves to Netlify Blobs via PUT function)
+const doSave = async () => {
     try {
-        localStorage.setItem('siteData', JSON.stringify(appData));
-        alert('Đã lưu thay đổi vào trình duyệt! Refresh trang chủ để xem.');
-    } catch (e) {
-        if (e.name === 'QuotaExceededError') {
-            alert('Lỗi: Dung lượng lưu trữ đã đầy! Hãy thử xóa bớt ảnh hoặc dùng ảnh nhỏ hơn.');
-        } else {
-            alert('Lỗi khi lưu: ' + e.message);
+        // Require Netlify Identity login
+        const user = netlifyIdentity && netlifyIdentity.currentUser();
+        if (!user) {
+            // Not logged in via Identity — open login modal
+            if (netlifyIdentity) {
+                alert('Bạn cần đăng nhập Netlify Identity trước khi lưu.');
+                netlifyIdentity.open();
+            } else {
+                alert('Netlify Identity chưa được tải. Vui lòng thử lại.');
+            }
+            return;
         }
+
+        const token = await getIdentityToken();
+
+        const res = await fetch('/.netlify/functions/site_data_put', {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                'authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(appData),
+        });
+
+        const result = await res.json();
+
+        if (res.ok && result.ok) {
+            alert(`Đã lưu thành công lên server!\nBởi: ${result.savedBy}\nLúc: ${result.savedAt}`);
+        } else if (res.status === 401) {
+            alert('Lỗi 401: Chưa đăng nhập hoặc phiên hết hạn. Vui lòng đăng nhập lại.');
+            if (netlifyIdentity) netlifyIdentity.open();
+        } else if (res.status === 403) {
+            alert('Lỗi 403: Email của bạn không có quyền admin. Liên hệ quản trị viên.');
+        } else {
+            alert('Lỗi khi lưu: ' + (result.error || 'Unknown error'));
+        }
+    } catch (e) {
+        console.error('Save error:', e);
+        alert('Lỗi khi lưu: ' + e.message);
     }
 };
 

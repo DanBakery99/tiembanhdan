@@ -29,52 +29,55 @@ const isSafeMapEmbed = (url) => {
     }
 };
 
-// Load data from localStorage or use initial data
-// Auto-reset if saved data is outdated (old categories, missing fields)
-const loadData = () => {
-    const savedData = localStorage.getItem('siteData');
-    if (!savedData) return initialData;
-
+// Load data from Netlify Function (server) or fallback to default data
+// This replaces localStorage as the source of truth
+const loadData = async () => {
     try {
-        const parsed = JSON.parse(savedData);
+        const res = await fetch('/.netlify/functions/site_data_get');
+        if (res.ok) {
+            const json = await res.json();
+            if (json && json.data && typeof json.data === 'object') {
+                const parsed = json.data;
 
-        // Ensure core objects exist
-        if (!parsed.hero) parsed.hero = JSON.parse(JSON.stringify(initialData.hero));
-        if (!parsed.menu) parsed.menu = JSON.parse(JSON.stringify(initialData.menu));
-        if (!parsed.contact) parsed.contact = JSON.parse(JSON.stringify(initialData.contact));
-        if (!parsed.gallery) parsed.gallery = JSON.parse(JSON.stringify(initialData.gallery));
+                // Ensure core objects exist
+                if (!parsed.hero) parsed.hero = JSON.parse(JSON.stringify(initialData.hero));
+                if (!parsed.menu) parsed.menu = JSON.parse(JSON.stringify(initialData.menu));
+                if (!parsed.contact) parsed.contact = JSON.parse(JSON.stringify(initialData.contact));
+                if (!parsed.gallery) parsed.gallery = JSON.parse(JSON.stringify(initialData.gallery));
 
-        // Migration: Fix old category names instead of wiping
-        if (parsed.menu.items) {
-            parsed.menu.items.forEach(item => {
-                if (item.category === 'món mặn') item.category = 'bánh ngọt';
-            });
-        }
-
-        // Merge missing sub-fields from initialData safely
-        const mergeFallback = (target, source) => {
-            for (const key in source) {
-                if (target[key] === undefined || target[key] === null || target[key] === '') {
-                    target[key] = source[key];
+                // Migration: Fix old category names instead of wiping
+                if (parsed.menu.items) {
+                    parsed.menu.items.forEach(item => {
+                        if (item.category === 'món mặn') item.category = 'bánh ngọt';
+                    });
                 }
+
+                // Merge missing sub-fields from initialData safely
+                const mergeFallback = (target, source) => {
+                    for (const key in source) {
+                        if (target[key] === undefined || target[key] === null || target[key] === '') {
+                            target[key] = source[key];
+                        }
+                    }
+                };
+
+                mergeFallback(parsed.contact, initialData.contact);
+
+                // Ensure hero background images structure
+                if (!parsed.hero.backgroundImages || parsed.hero.backgroundImages.length === 0) {
+                    parsed.hero.backgroundImages = initialData.hero.backgroundImages;
+                }
+
+                return parsed;
             }
-        };
-
-        mergeFallback(parsed.contact, initialData.contact);
-
-        // Ensure hero background images structure
-        if (!parsed.hero.backgroundImages || parsed.hero.backgroundImages.length === 0) {
-            parsed.hero.backgroundImages = initialData.hero.backgroundImages;
         }
-
-        return parsed;
     } catch (e) {
-        console.error("Lỗi khi tải dữ liệu từ localStorage:", e);
-        return initialData;
+        console.warn("Failed to load data from server, using default:", e);
     }
+    return initialData;
 };
 
-const appData = loadData();
+let appData = initialData; // temporary default until async load completes
 
 // ─── Helper: build order CTA href ─────────────────────────────────────────────
 const getOrderHref = () => {
@@ -485,7 +488,10 @@ const renderContact = () => {
 };
 
 // ─── Initialize ───────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // Load data from server (or fallback to default)
+    appData = await loadData();
+
     renderHeroImages();
     renderHeroStats();
     renderHeroCTAs();

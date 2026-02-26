@@ -25,5 +25,8 @@
   "main": "index.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@netlify/blobs": "^10.7.0"
+  }
 }
