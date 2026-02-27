@@ -8,8 +8,8 @@
     }
 
     body {
-        background: #FFFBF0;
-        color: #2D1B14;
+        background: #F6EFE6;
+        color: #6E5A4D;
         font-family: Inter, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -22,7 +22,7 @@
     h5,
     h6 {
         font-family: 'Playfair Display', serif;
-        color: #2D1B14;
+        color: #3F2A21;
     }
 }
 
@@ -32,19 +32,19 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: #FFFBEB;
-    /* background color */
+    background: #F6EFE6;
+    /* background */
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #8D6E63;
-    /* secondary/terracotta */
+    background: #8A6551;
+    /* secondary brown */
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #4B2C20;
-    /* primary espresso */
+    background: #6B4A3A;
+    /* primary brown */
 }
 
 /* Animation Utilities not in Tailwind Config */
@@ -86,7 +86,7 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 32px 0 rgba(75, 44, 32, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(107, 74, 58, 0.1);
 }
 
 /* Image Hover Effects */

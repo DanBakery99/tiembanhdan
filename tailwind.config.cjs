@@ -3,13 +3,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#4B2C20',
-        secondary: '#8D6E63',
-        accent: '#C2185B',
-        background: '#FFFBF0',
-        text: '#2D1B14',
-        surface: '#FDF5E6',
-        gold: '#A67C52'
+        primary: '#6B4A3A',
+        secondary: '#8A6551',
+        accent: '#A0785C',
+        background: '#F6EFE6',
+        text: '#3F2A21',
+        surface: '#FFF8F1',
+        gold: '#A67C52',
+        muted: '#8C776B',
+        softborder: '#DCCBBC',
+        hover: '#5A3D31',
+        lightaccent: '#EFE2D6'
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
@@ -17,8 +21,8 @@ module.exports = {
         display: ['Playfair Display', 'serif']
       },
       boxShadow: {
-        vintage: '0 4px 20px -2px rgba(75, 44, 32, 0.15)',
-        badge: '0 2px 10px rgba(194, 24, 91, 0.2)'
+        vintage: '0 4px 20px -2px rgba(107, 74, 58, 0.15)',
+        badge: '0 2px 10px rgba(160, 120, 92, 0.2)'
       },
       animation: {
         float: 'float 6s ease-in-out infinite',

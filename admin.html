@@ -19,13 +19,17 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#4B2C20', // Espresso
-                        secondary: '#8D6E63', // Warm Terracotta
-                        accent: '#C2185B', // Rose Pink
-                        background: '#FFFBF0', // Rich Ivory
-                        text: '#2D1B14', // Very Dark Brown
-                        surface: '#FDF5E6', // Old Lace
-                        gold: '#A67C52', // Vintage Gold
+                        primary: '#6B4A3A',
+                        secondary: '#8A6551',
+                        accent: '#A0785C',
+                        background: '#F6EFE6',
+                        text: '#3F2A21',
+                        surface: '#FFF8F1',
+                        gold: '#A67C52',
+                        muted: '#8C776B',
+                        softborder: '#DCCBBC',
+                        hover: '#5A3D31',
+                        lightaccent: '#EFE2D6',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -33,7 +37,7 @@
                         display: ['Playfair Display', 'serif'],
                     },
                     boxShadow: {
-                        'vintage': '0 10px 40px -10px rgba(75, 44, 32, 0.2)',
+                        'vintage': '0 10px 40px -10px rgba(107, 74, 58, 0.2)',
                     }
                 }
             }
@@ -41,15 +45,15 @@
     </script>
     <style>
         .login-gradient {
-            background: radial-gradient(circle at top right, rgba(194, 24, 91, 0.05), transparent),
-                radial-gradient(circle at bottom left, rgba(75, 44, 32, 0.05), transparent);
+            background: radial-gradient(circle at top right, rgba(160, 120, 92, 0.05), transparent),
+                radial-gradient(circle at bottom left, rgba(107, 74, 58, 0.05), transparent);
         }
 
         .page-surface {
-            background: radial-gradient(circle at 20% 20%, rgba(248, 191, 77, 0.08), transparent 40%),
-                radial-gradient(circle at 80% 0%, rgba(120, 53, 15, 0.06), transparent 45%),
-                radial-gradient(circle at 10% 80%, rgba(194, 24, 91, 0.06), transparent 38%),
-                #FFFBF0;
+            background: radial-gradient(circle at 20% 20%, rgba(166, 124, 82, 0.08), transparent 40%),
+                radial-gradient(circle at 80% 0%, rgba(107, 74, 58, 0.06), transparent 45%),
+                radial-gradient(circle at 10% 80%, rgba(160, 120, 92, 0.06), transparent 38%),
+                #F6EFE6;
         }
 
         /* Hide scrollbar on mobile tab nav */
