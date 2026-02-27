@@ -139,6 +139,13 @@ const renderHeroImages = () => {
     }
 };
 
+// ─── Helper: determine if a URL is external (not tel:/mailto:/#) ──────────────
+const isExternalUrl = (href) => {
+    if (!href || href === '#') return false;
+    if (href.startsWith('tel:') || href.startsWith('mailto:')) return false;
+    return true;
+};
+
 // ─── Hero CTAs ─────────────────────────────────────────────────────────────────
 const renderHeroCTAs = () => {
     const ctaContainer = document.getElementById('hero-cta-container');
@@ -146,17 +153,20 @@ const renderHeroCTAs = () => {
     const orderHref = getOrderHref();
     const orderLabel = getOrderLabel();
     const callHref = getCallHref();
+    const safeOrderHref = sanitizeUrl(orderHref);
+    const safeCallHref = sanitizeUrl(callHref);
+    const orderExternal = isExternalUrl(safeOrderHref);
 
     ctaContainer.innerHTML = `
         <a href="#menu"
             class="px-8 py-4 bg-primary text-white rounded-full font-semibold shadow-lg hover:shadow-vintage hover:bg-secondary transition-all transform hover:-translate-y-1 text-center">
             Xem Thực Đơn
         </a>
-        <a href="${sanitizeUrl(orderHref)}" target="_blank" rel="noopener"
+        <a href="${safeOrderHref}" ${orderExternal ? 'target="_blank" rel="noopener noreferrer"' : ''}
             class="px-8 py-4 bg-accent text-white rounded-full font-semibold shadow-lg hover:bg-accent/80 transition-all transform hover:-translate-y-1 text-center flex items-center justify-center gap-2">
             ${orderLabel}
         </a>
-        <a href="${sanitizeUrl(callHref)}"
+        <a href="${safeCallHref}"
             class="hidden sm:flex px-6 py-4 bg-white border-2 border-primary text-primary rounded-full font-semibold hover:bg-primary hover:text-white transition-all transform hover:-translate-y-1 items-center gap-2 text-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -209,6 +219,9 @@ const renderMenu = (filterCategory = null) => {
         : appData.menu.items;
 
     const orderHref = getOrderHref();
+    const safeOrderHref = sanitizeUrl(orderHref);
+    const orderExternal = isExternalUrl(safeOrderHref);
+    const targetAttr = orderExternal ? 'target="_blank" rel="noopener noreferrer"' : '';
 
     menuGrid.innerHTML = filteredItems.map((item, index) => {
         const safeName = sanitizeText(item.name);
@@ -230,7 +243,7 @@ const renderMenu = (filterCategory = null) => {
                     
                     <!-- Quick Order Overlay -->
                     <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-[2px]">
-                        <a href="${sanitizeUrl(orderHref)}" target="_blank" rel="noopener"
+                        <a href="${safeOrderHref}" ${targetAttr}
                            class="bg-white text-primary px-8 py-3 rounded-xl font-bold text-sm transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 shadow-xl hover:bg-accent hover:text-white cursor-pointer">
                             Đặt Món Ngay
                         </a>
@@ -247,7 +260,7 @@ const renderMenu = (filterCategory = null) => {
                     </div>
 
                     <!-- CTA Đặt Món (always visible below price) -->
-                    <a href="${sanitizeUrl(orderHref)}" target="_blank" rel="noopener"
+                    <a href="${safeOrderHref}" ${targetAttr}
                        class="mt-4 w-full block text-center py-3 bg-primary/5 hover:bg-accent hover:text-white text-primary font-semibold rounded-xl border border-primary/10 hover:border-transparent transition-all duration-300 text-sm cursor-pointer">
                         Đặt Món
                     </a>
@@ -264,8 +277,13 @@ const renderMenuCTA = () => {
     const orderHref = sanitizeUrl(getOrderHref());
     const orderLabel = getOrderLabel();
     ctaEl.href = orderHref;
-    ctaEl.setAttribute('target', '_blank');
-    ctaEl.setAttribute('rel', 'noopener');
+    if (isExternalUrl(orderHref)) {
+        ctaEl.setAttribute('target', '_blank');
+        ctaEl.setAttribute('rel', 'noopener noreferrer');
+    } else {
+        ctaEl.removeAttribute('target');
+        ctaEl.removeAttribute('rel');
+    }
     ctaEl.textContent = orderLabel;
 };
 
@@ -386,11 +404,18 @@ const renderGallery = () => {
         const instaUrl = appData.contact.instagramUrl;
         if (instaUrl && instaUrl !== '#') {
             galleryCtaLink.href = instaUrl;
-            galleryCtaLink.textContent = 'Xem Instagram @tiembanhdan';
+            // Preserve the SVG icon — only update the text node
+            const textNodes = Array.from(galleryCtaLink.childNodes).filter(n => n.nodeType === Node.TEXT_NODE);
+            if (textNodes.length > 0) {
+                textNodes[textNodes.length - 1].textContent = ' Xem Instagram @tiembanhdan';
+            }
             if (galleryMoreCta) galleryMoreCta.href = instaUrl;
         } else {
             galleryCtaLink.href = '#';
-            galleryCtaLink.textContent = 'Xem Thêm Hình Ảnh';
+            const textNodes = Array.from(galleryCtaLink.childNodes).filter(n => n.nodeType === Node.TEXT_NODE);
+            if (textNodes.length > 0) {
+                textNodes[textNodes.length - 1].textContent = ' Xem Thêm Hình Ảnh';
+            }
         }
     }
 
@@ -501,6 +526,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderReviews();
     renderGallery();
     renderContact();
+
+    // ── Wire up mobile sticky CTAs directly (avoids race condition) ────────
+    const zaloCtaMobile = document.getElementById('mobile-cta-zalo');
+    const callCtaMobile = document.getElementById('mobile-cta-call');
+    if (zaloCtaMobile) {
+        const orderHref = sanitizeUrl(getOrderHref());
+        zaloCtaMobile.href = orderHref;
+        if (isExternalUrl(orderHref)) {
+            zaloCtaMobile.setAttribute('target', '_blank');
+            zaloCtaMobile.setAttribute('rel', 'noopener noreferrer');
+        }
+    }
+    if (callCtaMobile) {
+        callCtaMobile.href = sanitizeUrl(getCallHref());
+    }
+
+    // Signal that all rendering is complete (for any inline scripts)
+    window.dispatchEvent(new CustomEvent('app:rendered'));
 
     // Animate elements on scroll
     const observer = new IntersectionObserver((entries) => {

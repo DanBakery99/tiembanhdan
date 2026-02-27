@@ -37,14 +37,14 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #D97706;
-    /* accent color */
+    background: #8D6E63;
+    /* secondary/terracotta */
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #78350F;
-    /* primary color */
+    background: #4B2C20;
+    /* primary espresso */
 }
 
 /* Animation Utilities not in Tailwind Config */
@@ -86,7 +86,7 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 32px 0 rgba(120, 53, 15, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(75, 44, 32, 0.1);
 }
 
 /* Image Hover Effects */

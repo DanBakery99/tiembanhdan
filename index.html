@@ -221,7 +221,7 @@
                     </div>
 
                     <div class="mt-8">
-                        <a id="google-maps-link" href="#" target="_blank" rel="noopener"
+                        <a id="google-maps-link" href="#" target="_blank" rel="noopener noreferrer"
                             class="inline-flex items-center font-bold text-accent hover:underline gap-2">
                             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                                 <path
@@ -256,7 +256,7 @@
                                 Ghé thăm chúng tôi
                             </h4>
                             <p class="text-sm text-text/70 mb-4" id="display-address"></p>
-                            <a id="get-directions-btn" href="#" target="_blank" rel="noopener"
+                            <a id="get-directions-btn" href="#" target="_blank" rel="noopener noreferrer"
                                 class="block w-full text-center py-3 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition-colors">
                                 Chỉ đường trên Maps
                             </a>
@@ -316,7 +316,7 @@
                         khoảnh khắc ngọt ngào của bạn.</p>
                     <div class="flex space-x-3">
                         <!-- Facebook -->
-                        <a id="footer-facebook" href="#" target="_blank" rel="noopener"
+                        <a id="footer-facebook" href="#" target="_blank" rel="noopener noreferrer"
                             aria-label="Facebook Tiệm Bánh DAN"
                             class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-all">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -325,7 +325,7 @@
                             </svg>
                         </a>
                         <!-- Instagram -->
-                        <a id="footer-instagram" href="#" target="_blank" rel="noopener"
+                        <a id="footer-instagram" href="#" target="_blank" rel="noopener noreferrer"
                             aria-label="Instagram Tiệm Bánh DAN"
                             class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-all">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -334,7 +334,7 @@
                             </svg>
                         </a>
                         <!-- Zalo -->
-                        <a id="footer-zalo" href="#" target="_blank" rel="noopener" aria-label="Zalo Tiệm Bánh DAN"
+                        <a id="footer-zalo" href="#" target="_blank" rel="noopener noreferrer" aria-label="Zalo Tiệm Bánh DAN"
                             class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-all">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -367,7 +367,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            <a id="footer-maps-link" href="#" target="_blank" rel="noopener"
+                            <a id="footer-maps-link" href="#" target="_blank" rel="noopener noreferrer"
                                 class="text-white/70 hover:text-accent transition-colors"><span
                                     id="contact-address"></span></a>
                         </li>
@@ -386,7 +386,7 @@
                                 <path
                                     d="M12.49 3C7.17 3 2.86 7.01 2.86 11.99c0 1.72.48 3.32 1.32 4.68L3 21l4.5-1.15A9.44 9.44 0 0 0 12.49 21C17.82 21 22 16.99 22 12S17.82 3 12.49 3z" />
                             </svg>
-                            <a id="footer-zalo-cta" href="#" target="_blank" rel="noopener"
+                            <a id="footer-zalo-cta" href="#" target="_blank" rel="noopener noreferrer"
                                 class="text-accent font-semibold hover:underline">Nhắn Zalo Đặt Bánh</a>
                         </li>
                     </ul>
@@ -469,13 +469,13 @@
 
         // Wire up mobile sticky CTAs after module loads
         document.addEventListener('DOMContentLoaded', () => {
-            // We can't import here (inline), so we read from DOM after module has run
-            setTimeout(() => {
+            // Listen for the custom event dispatched by app.js after async data + render
+            window.addEventListener('app:rendered', () => {
                 const zeroCta = document.getElementById('mobile-cta-zalo');
                 const callCta = document.getElementById('mobile-cta-call');
                 const orderBtn = document.getElementById('menu-section-cta');
-                if (zeroCta && orderBtn) {
-                    zeroCta.href = orderBtn.href || '#';
+                if (zeroCta && orderBtn && orderBtn.href && orderBtn.href !== '#') {
+                    zeroCta.href = orderBtn.href;
                 }
                 const callLink = document.querySelector('#hero-cta-container a[href^="tel"]');
                 if (callCta) {
@@ -493,7 +493,7 @@
                 if (galleryCta && galleryInsta) {
                     galleryCta.href = galleryInsta.href || '#';
                 }
-            }, 200);
+            });
         });
     </script>
 </body>
